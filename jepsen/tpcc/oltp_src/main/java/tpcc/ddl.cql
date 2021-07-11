@@ -1,0 +1,141 @@
+CREATE TABLE tpcc.WAREHOUSE (
+  W_ID INT,
+  W_YTD DOUBLE,
+  W_TAX DOUBLE,
+  W_NAME text,
+  W_STREET_1 text,
+  W_STREET_2 text,
+  W_CITY text,
+  W_STATE text,
+  W_ZIP text,
+  PRIMARY KEY (W_ID)
+);
+
+CREATE TABLE tpcc.DISTRICT (
+  D_W_ID INT,
+  D_ID INT,
+  D_YTD DOUBLE,
+  D_TAX DOUBLE,
+  D_NEXT_O_ID INT,
+  D_NAME text,
+  D_STREET_1 text,
+  D_STREET_2 text,
+  D_CITY text,
+  D_STATE text,
+  D_ZIP text,
+  PRIMARY KEY (D_W_ID,D_ID)
+);
+
+
+CREATE TABLE tpcc.CUSTOMER (
+  C_W_ID INT,
+  C_D_ID INT,
+  C_ID INT,
+  C_DISCOUNT DOUBLE,
+  C_CREDIT text,
+  C_LAST text,
+  C_FIRST text,
+  C_CREDIT_LIM DOUBLE,
+  C_BALANCE DOUBLE,
+  C_YTD_PAYMENT FLOAT,
+  C_PAYMENT_CNT INT,
+  C_DELIVERY_CNT INT,
+  C_STREET_1 text,
+  C_STREET_2 text,
+  C_CITY text,
+  C_STATE text,
+  C_ZIP text,
+  C_PHONE text,
+  C_SINCE TIMESTAMP,
+  C_MIDDLE text,
+  C_DATA text,
+  PRIMARY KEY (C_W_ID, C_D_ID, C_ID)
+);
+
+CREATE INDEX index_cust_last on tpcc.customer (c_last) ;
+
+
+
+CREATE TABLE tpcc.OORDER (
+  O_W_ID INT,
+  O_D_ID INT,
+  O_ID INT,
+  O_C_ID INT,
+  O_CARRIER_ID INT,
+  O_OL_CNT INT,
+  O_ALL_LOCAL INT,
+  O_ENTRY_D TIMESTAMP,
+  PRIMARY KEY (O_W_ID,O_D_ID,O_ID)
+);
+
+ CREATE INDEX index_oorder_o_c_id ON tpcc.oorder (o_c_id);
+
+
+CREATE TABLE tpcc.NEW_ORDER (
+  NO_W_ID INT,
+  NO_D_ID INT,
+  NO_O_ID INT,
+  PRIMARY KEY (NO_W_ID,NO_D_ID,NO_O_ID)
+);
+CREATE INDEX index_new_order_no_o_id on tpcc.new_order (no_o_id) ;
+
+
+CREATE TABLE tpcc.HISTORY (
+  H_C_ID INT,
+  H_C_D_ID INT,
+  H_C_W_ID INT,
+  H_D_ID INT,
+  H_W_ID INT,
+  H_DATE TIMESTAMP,
+  H_AMOUNT DOUBLE,
+  H_DATA text,
+  PRIMARY KEY (H_C_ID,H_C_D_ID,H_C_W_ID,H_D_ID,H_W_ID)
+);
+
+
+CREATE TABLE tpcc.ITEM (
+  I_ID INT,
+  I_NAME text,
+  I_PRICE DOUBLE,
+  I_DATA text,
+  I_IM_ID INT,
+  PRIMARY KEY (I_ID)
+);
+
+
+CREATE TABLE tpcc.STOCK (
+  S_W_ID INT,
+  S_I_ID INT,
+  S_QUANTITY DOUBLE,
+  S_YTD DOUBLE,
+  S_ORDER_CNT INT,
+  S_REMOTE_CNT INT,
+  S_DATA text,
+  S_DIST_01 text,
+  S_DIST_02 text,
+  S_DIST_03 text,
+  S_DIST_04 text,
+  S_DIST_05 text,
+  S_DIST_06 text,
+  S_DIST_07 text,
+  S_DIST_08 text,
+  S_DIST_09 text,
+  S_DIST_10 text,
+  PRIMARY KEY (S_W_ID, S_I_ID)
+);
+
+
+CREATE TABLE tpcc.ORDER_LINE (
+  OL_W_ID INT,
+  OL_D_ID INT,
+  OL_O_ID INT,
+  OL_NUMBER INT,
+  OL_I_ID INT,
+  OL_DELIVERY_D TIMESTAMP,
+  OL_AMOUNT DOUBLE,
+  OL_SUPPLY_W_ID INT,
+  OL_QUANTITY DOUBLE,
+  OL_DIST_INFO text,
+  PRIMARY KEY (OL_W_ID,OL_D_ID,OL_O_ID,OL_NUMBER),
+);
+
