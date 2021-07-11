@@ -4,26 +4,24 @@ RUN_DIR=`readlink -f ../monkeydb/runs`
 
 mkdir -p ${RUN_DIR}
 
-OLTP_DIR=`readlink -f ../oltpbench`
+OLTP_DIR=`readlink -f oltpbench`
 MONKEYDB_DIR=`readlink -f ../monkeydb`
 
 PORT=3306
 NTERM=7
 DUR=5
 CONSISTENCY="causal"
-WEIGHT="45,43,4,4,4"
 EXEC_ST="random"
 ASSERT_ST="random"
 
 [ -z $1 ] || BENCHNAME=$1
 [ -z $2 ] || NTERM=$2
 [ -z $3 ] || DUR=$3
-[ -z $4 ] || WEIGHT=$4
-[ -z $5 ] || CONSISTENCY=$5
-[ -z "$6" ] || EXEC_ST="$6"
-[ -z "$7" ] || ASSERT_ST="$7"
+[ -z $4 ] || CONSISTENCY=$4
+[ -z "$5" ] || EXEC_ST="$5"
+[ -z "$6" ] || ASSERT_ST="$6"
 
-CURR_RUN_DIR=`mktemp -d $RUN_DIR/run_${BENCHNAME}_${NTERM}_${DUR}_${CONSISTENCY}_${WEIGHT}_${EXEC_ST}_${ASSERT_ST}_XXXXXX`
+CURR_RUN_DIR=`mktemp -d $RUN_DIR/run_${BENCHNAME}_${NTERM}_${DUR}_${CONSISTENCY}_${EXEC_ST}_${ASSERT_ST}_XXXXXX`
 
 MONKEYDB_LOG=${CURR_RUN_DIR}/monkeydb_log
 OLTP_LOAD=${CURR_RUN_DIR}/oltp_load_log
@@ -53,7 +51,6 @@ function oltp_run() {
     sed -i "s|<password>.*</password>|<password></password>|g" "${oltp_config}"
 	sed -i "s|<terminals>[0-9]\+</terminals>|<terminals>${NTERM}</terminals>|g" "${oltp_config}"
 	sed -i "s|<time>[0-9]\+</time>|<time>${DUR}</time>|g" "${oltp_config}"
-	sed -i "s|<weights>[0-9,]\+</weights>|<weights>${WEIGHT}</weights>|g" "${oltp_config}"
 	cd $OLTP_DIR
 	${OLTP_DIR}/oltpbenchmark -b "${BENCHNAME}" -c "${oltp_config}" --create=true --load=true -o "$OLTP_OUTD" > "${OLTP_LOAD}" 2> "${OLTP_LOAD}_err"
 	cd - > /dev/null

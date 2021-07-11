@@ -59,6 +59,8 @@ struct Opts {
     port: u16,
     #[clap(short, long)]
     strategy: String,
+    #[clap(short, long)]
+    db: String,
 }
 
 fn main() {
@@ -68,13 +70,13 @@ fn main() {
 
     let asserts: Vec<fn(&mut Conn) -> bool> = vec![cr01];
 
-    println!(
-        "{}",
-        conn.query_first::<String, _>("check consistency")
-            .unwrap()
-            .unwrap()
-    );
+    // println!(
+    //     "{}",
+    //     conn.query_first::<String, _>("check consistency")
+    //         .unwrap()
+    //         .unwrap()
+    // );
 
-    conn.query_drop(format!("read {}", opts.strategy)).unwrap();
+    // conn.query_drop(format!("read {}", opts.strategy)).unwrap();
     do_check(&mut conn, &asserts, 5);
 }

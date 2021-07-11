@@ -1,12 +1,16 @@
-cd /oopsla21/monkeydb
 cargo build --release
 
-cd /oopsla21/oltpbench
+cd oltpbench
+ant bootstrap
+ant resolve
+ant build
 
-# benches=(tpcc smallbank voter wikipedia)
-benches=(tpcc)
+cd ..
+
+benches=(tpcc smallbank voter wikipedia)
+# benches=(tpcc)
 
 for bench in ${benches[@]}; do
     cargo build --example ${bench}_cr --release
-    bash oltp_disql.sh ${bench} 3 10 "45,43,4,4,4" "causal" 
+    bash oltp_disql.sh ${bench} 3 10 "causal" 
 done
