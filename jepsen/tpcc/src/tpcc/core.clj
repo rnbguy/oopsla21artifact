@@ -120,7 +120,7 @@ wsrep_node_address=\"" node "\"
       (info node "tearing down galera")
       (try
         ;; (when (= node (jepsen/primary test))
-        (info node (str "[ASSERT] cr violations: " (assert_check)))
+        (info node (str "assert violations: " (assert_check)))
         ;; )
         (catch Exception e (info node (str
           "[RANADEEP] prolly this is beginning of run"
