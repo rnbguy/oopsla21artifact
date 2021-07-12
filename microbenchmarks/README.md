@@ -12,13 +12,13 @@ Use the same image name to run a docker container:
 ```
 docker run -it <image_name> /bin/bash
 ```
-For sanity checking, run the following script after executing the above commands, which will run a very small version of our experiments:
+For sanity checking, run the following script after executing the above commands, which will run a very small version of our experiments. This should complete without errors with a message that says `Generating plots ...`.
 ```
 ./BuildAndRunMicrobenchmarks.sh
 ```
-All of the above commands should finish in < 5 minutes.
+All of the above commands should finish in less than 5 minutes. (On a fresh OS with missing dependencies, it might take up to 15 min for the docker build to finish.)
 
-To reproduce results of microbenchmarks given in the paper run:
+To reproduce results of Fig. 13 of the paper: 
 ```
 ./BuildAndRunMicrobenchmarks.sh --numIterations=5000 --testCases=50
 ```
@@ -28,6 +28,7 @@ or
 ```
 
 **Notes**
+- If running the script `BuildAndRunMicrobenchmarks` returns an error `$'\r': command not found` then run this command first to get rid of the carriage return characters `sed 's/\r$//' BuildAndRunMicrobenchmarks.sh > BuildAndRunMicrobenchmarksFixed.sh`. Then do `chmod u+x BuildAndRunMicrobenchmarksFixed.sh` and finally use `BuildAndRunMicrobenchmarksFixed` in place of the original script `BuildAndRunMicrobenchmarks`.
 - The parameters used above can take a long time (~ one day), so it is recommended to run with smaller iterations/test-cases, for instance:
 - ```
   ./BuildAndRunMicrobenchmarks.sh --numIterations=2000 --testCases=30
