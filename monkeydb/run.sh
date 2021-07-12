@@ -120,7 +120,7 @@ function run_bench() {
 	echo "On ${nodes} nodes with \"${consistency}\" consistency"
 	echo "Average duration per run: $(( $dur / $total_run )) secs"
 	echo "----------"
-	grep ^A "${curr_violated_log_dir}/${bench}.out" | cut -d' ' -f 1 | sort | uniq -c | column -t -N "#Violation among ${total_run} runs,Assertion" -O "2,1" -o " | "
+	grep ^A "${curr_violated_log_dir}/${bench}.out" | cut -d' ' -f 1 | sort -n | uniq -c | column -t -N "#Violation among ${total_run} runs,Assertion" -O "2,1" -o " | "
 	echo "----------"
 }
 

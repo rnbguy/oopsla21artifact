@@ -64,6 +64,6 @@ for node in ${nodes//,/ }; do
 	echo "On ${nodes} nodes with time limit of ${timelimit} secs"
 	echo "Average duration per run: $(( $dur / $total_run )) secs"
 	echo "----------"
-    cat "${CURR_VIO_LOG}" | tr ',' '\n' | sort -n | uniq -c | column -t -N "#Violation among ${total_run} runs,Assertion" -O '2,1' -o ' | '
+    cat "${CURR_VIO_LOG}" | tr ',' '\n' | sort -n | sed -e 's/^/A/' | uniq -c | column -t -N "#Violation among ${total_run} runs,Assertion" -O '2,1' -o ' | '
 	echo "----------"
 done
