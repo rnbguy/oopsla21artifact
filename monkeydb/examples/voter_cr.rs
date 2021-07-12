@@ -46,7 +46,8 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
                 *dur_ent += begin.elapsed().as_secs_f32();
                 if ans {
                     *cnt_ent = -*cnt_ent;
-                    println!("cr {} {} {:.2}", i + 1, *cnt_ent, *dur_ent);
+                    // A14 for voter
+                    println!("A{} is violated (after {} tries and {:.2} secs)", i + 1 + 13, *cnt_ent, *dur_ent);
                 }
             }
         }

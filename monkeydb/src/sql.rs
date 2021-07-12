@@ -256,7 +256,7 @@ impl SQLdb {
         let re = Regex::new("`([a-zA-Z0-9]+)`").unwrap();
         let sql = re.replace(&sql, "$1").clone();
 
-        let is_primary_key_auto_increment = false;
+        let is_primary_key_auto_increment = true;
 
         let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, &sql)
             .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, &sql))
