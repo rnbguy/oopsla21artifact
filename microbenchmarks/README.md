@@ -12,11 +12,11 @@ Use the same image name to run a docker container:
 ```
 docker run -it <image_name> /bin/bash
 ```
-For sanity check, run this script after executing the above commands:
+For sanity checking, run the following script after executing the above commands, which will run a very small version of our experiments:
 ```
 ./BuildAndRunMicrobenchmarks.sh
 ```
-The build and run should finish in < 5 minutes.
+All of the above commands should finish in < 5 minutes.
 
 To reproduce results of microbenchmarks given in the paper run:
 ```
@@ -28,7 +28,7 @@ or
 ```
 
 **Notes**
-- The parameters used can take a long time (~ one day), so it is recommended to run with smaller iterations/test-cases.
+- The parameters used above can take a long time (~ one day), so it is recommended to run with smaller iterations/test-cases, for instance:
 - ```
   ./BuildAndRunMicrobenchmarks.sh --numIterations=2000 --testCases=30
   ```
@@ -46,9 +46,9 @@ and random test cases. The applications include:
 - Twitter
 
 There are two kinds of experiments for each application:
-- _Random_ : Application randomly chooses the operations, subject to pre-defined
+- _Random_ : Client randomly chooses the operations, subject to pre-defined
            number of operations and threads (min: 2 and max: 3).
-- _Fixed_  : A fixed test case to find violation in the application.
+- _Fixed_  : A fixed test client to find violation in the application.
 
 Each application's violations are summarized in the below table:
 
@@ -69,13 +69,13 @@ Each application's violations are summarized in the below table:
   
 ### Code Structure
 #### MonkeyDB-KV
-MonkeyDB key-value interface is written as a C++ library which can be included in any application. It also supports HTTP API to allow applications developed in other languages to use MonkeyDB-KV. Application can make use of simple key-value API which involves:
+MonkeyDB key-value interface is written as a C++ library that can be included in any application. It also supports an HTTP API to allow applications developed in other languages to use MonkeyDB-KV. Application can make use of simple key-value API which involves:
 - get(_key_: x, _session-id_)
 - put(_key_: x, _value_: y, _session-id_)
 
 _Session-id_ is an optional parameter which can be used to uniquely identify different clients interacting with the store.
 
-We internally use consistency checker to return a randomly chosen value which is consistent with the specified isolation level. MonkeyDB KV-interface currently supports causal and serializability.
+We internally use a consistency checker to return a randomly chosen value which is consistent with the specified isolation level. MonkeyDB KV-interface currently supports causal and serializability.
 
 The kv-interface is defined in kv_store/include/kv_store.h and the HTTP interface is defined in kv_store/include/http_server.h.
 
