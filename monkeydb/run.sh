@@ -13,6 +13,10 @@ mkdir -p ${ASSERT_DIR}
 OLTP_DIR=`readlink -f oltpbench`
 MONKEYDB_DIR=`readlink -f ../monkeydb`
 
+function now {
+    date +%Y-%m-%d-%H-%M-%S
+}
+
 function oltp_run() {
 	cd ${CURR_RUN_DIR}
 	> $MONKEYDB_LOG
@@ -76,7 +80,7 @@ function setup_oltp_run {
 	[ -z "$5" ] || EXEC_ST="$5"
 	[ -z "$6" ] || ASSERT_ST="$6"
 
-	CURR_RUN_DIR=`mktemp -d $RUN_DIR/XXXXXX_run_${BENCHNAME}_${NTERM}_${DUR}_${CONSISTENCY}_${EXEC_ST}_${ASSERT_ST}`
+	CURR_RUN_DIR=`mktemp -d $RUN_DIR/$(now)_XXX_run_${BENCHNAME}_${NTERM}_${DUR}_${CONSISTENCY}_${EXEC_ST}_${ASSERT_ST}`
 
 	MONKEYDB_LOG=${CURR_RUN_DIR}/monkeydb_log
 	OLTP_LOAD=${CURR_RUN_DIR}/oltp_load_log
@@ -86,26 +90,13 @@ function setup_oltp_run {
 	oltp_run
 }
 
-function build() {
-	cargo build --release
-	for bench in tpcc smallbank voter wikipedia; do
-		echo cargo build --example ${bench}_cr --release
-	done
-
-	cd oltpbench
-	ant bootstrap
-	ant resolve
-	ant build
-	cd ..
-}
-
 function run_bench() {
 	nodes=$1
 	consistency=$2
 	bench=$3
 	total_run=$4
 	timelimit=$5
-	curr_violated_log_dir=`mktemp -d ${ASSERT_DIR}/XXXXX`
+	curr_violated_log_dir=`mktemp -d ${ASSERT_DIR}/$(now)_XXX`
 	dur=0
 	for i in `seq 1 ${total_run}`; do
 		start=`date +%s`
@@ -116,11 +107,16 @@ function run_bench() {
 	echo "=========="
 	echo "Benchmark: ${bench}"
 	echo "----------"
-	echo "Total runs: ${total_run} with time limit of ${timelimit} secs"
+	echo "${total_run} runs with time limit of ${timelimit} secs"
 	echo "On ${nodes} nodes with \"${consistency}\" consistency"
 	echo "Average duration per run: $(( $dur / $total_run )) secs"
 	echo "----------"
-	grep ^A "${curr_violated_log_dir}/${bench}.out" | cut -d' ' -f 1 | sort -n | uniq -c | column -t -N "#Violation among ${total_run} runs,Assertion" -O "2,1" -o " | "
+	grep "^assert_id" "${curr_violated_log_dir}/${bench}.out" \
+	| cut -d' ' -f 2 \
+    | sort -n \
+    | uniq -c \
+    | awk "{printf \"A%d %d %.2f\n\",\$2,\$1,\$1*100/${total_run}}" \
+    | column -t -N "Assertion,#Violation among ${total_run} runs,Violation%" -o ' | '
 	echo "----------"
 }
 

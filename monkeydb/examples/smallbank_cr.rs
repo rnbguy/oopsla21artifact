@@ -73,7 +73,7 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
                 if ans {
                     *cnt_ent = -*cnt_ent;
                     // A13 for smallbank
-                    println!("A{} is violated (after {} tries and {:.2} secs)", i + 1 + 12, *cnt_ent, *dur_ent);
+                    println!("assert_id {} is violated (after {} tries and {:.2} secs)", i + 1 + 12, *cnt_ent, *dur_ent);
                 }
             }
         }

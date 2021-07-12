@@ -23,3 +23,19 @@ You can pass comma separated multiple values to run for multiple parameter value
 `bash run.sh 20 tpcc,smallbank causal,readcommitted 3,5 10`
 
 will run both `tpcc` and `smallbank` under `causal` and `readcommitted` consistency on `3` and `5` replica setup.
+
+
+## Average duration per run
+
+The table below lists the average duration per run in seconds.
+
+| benchmarks | tpcc | smallbank | voter | wikipedia |
+|-|:-:|:-:|:-:|:-:|
+| 2 nodes ; causal | 60 | 15 | 15 | 15 |
+| 3 nodes ; causal | 60 | 15 | 15 | 15 |
+| 2 nodes ; readcommitted | 170 | 15 | 15 | 15 |
+| 3 nodes ; readcommitted | 170 | 15 | 15 | 15 |
+
+For a good trend matching the results from papers, run at least for 50 runs for each parameter. 
+
+Note, the tables in 

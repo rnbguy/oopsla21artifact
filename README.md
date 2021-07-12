@@ -3,7 +3,7 @@ Paper 150 - OOPSLA 2021 Artifact Submission
 
 # Abstract
 
-Some lines
+
 
 ## Checklist
 
