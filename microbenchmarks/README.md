@@ -44,6 +44,18 @@ or
 - We use DFS (Depth First Search) to compute maximum number of possible states, but it will likely not finish within 5000 iterations, in which case it will indicate that the max states could not be computed correctly. In order to limit the overall time for running experiments, it is necessary to restrict the number of iterations. As a result, the plot containing `causal_max` and `serializability_max` might not indicate true value of the total number of states. In our paper, we ran the experiment for much longer (over multiple days) to let DFS finish without bounding iterations. 
   
 
+To reproduce the assertions failure (Table 1), run the application individually with a small number of iterations and time the command:
+
+```
+cd build-files/applications/
+time ./twitter_app twitter.log 20 causal fixed 1 1
+time ./shopping_cart_app cart.log 25 causal fixed 1 1
+```
+
+Which runs the applications with small (20 or 25) iterations with causal.
+The time it took for each iteration is also present in logs (logged with the iteration end statement - in microseconds). We used the time printed in the logs for Table 1 in paper.
+
+
 ## Microbenchmarks
 
 The BuildAndRunMicrobenchmarks script runs all the applications with the specified number of iterations
