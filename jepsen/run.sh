@@ -35,7 +35,6 @@ function run_bench {
     ## docker instances are live now
 
     ## jepsen test
-    # echo "running: . /root/.bashrc; cd /jepsen/tpcc; lein run test --time-limit ${timelimit} --nodes ${nodestr}" > "${CURR_DIR}/jepsen.out"
     docker exec -it jepsen-control bash -c ". /root/.bashrc; cd /jepsen/tpcc; lein run test --time-limit ${timelimit} --nodes ${nodestr}" > "${CURR_DIR}/jepsen.out"
 
     cat "${CURR_DIR}/jepsen.out" \

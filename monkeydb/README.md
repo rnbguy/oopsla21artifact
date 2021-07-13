@@ -23,8 +23,9 @@ We present the statistics of our findings as 2D plots in figure 14 and 15 in the
 # Dependencies
 - A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
 - Bash and its common utilities
-- Apache Ant + Java (for OLTPBench)
+- Apache Ant (for OLTPBench)
 - MySQL console client (for OLTPBench)
+- libssl, clang
 
 # Instruction
 
