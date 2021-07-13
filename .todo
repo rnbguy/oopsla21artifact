@@ -1,0 +1,16 @@
+TODO
+----
+
+console client
+demonstrate weak behavior
+
+DONE
+----
+monkeydb -> oltp
+
+what were modification in oltp benchmarks?
+
+Linux Suggested
+docker -> break sudo access
+software latest version
+jepsen artifact - wrote in jepsen framework (follow jepsen docker instruction)
