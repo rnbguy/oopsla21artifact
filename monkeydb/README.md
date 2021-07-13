@@ -104,7 +104,7 @@ If an assertion is not present in the table, its count (and also its percentage)
 As the out shows, A15 and A16 were violated 60% time and A17 was not violated at all.
 
 ## Runtime
-This particular artifact was run on a Intel-i7 laptop with 16GB RAM.
+This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM.
 
 The table below lists the average duration per run in seconds.
 

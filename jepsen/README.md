@@ -23,6 +23,10 @@ If you are using something different than `systemctl`, change the command accord
 
 # Instruction
 
+## First run
+
+First run will start building the docker image. This should not take more than 10 minutes.
+
 ## Execute
 
 _Logs will be generated in `log` directory._
@@ -66,18 +70,16 @@ It also prints an average duration per run.
 If an assertion is not present in the table, its count (and also its percentage) is zero.
 
 ## Runtime
-This particular artifact was run on a Intel-i7 laptop with 16GB RAM.
-
-
+This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM.
 
 The table below lists the average duration per run in seconds.
 
 | benchmarks | tpcc |
 |-|:-:|
-| 2 nodes | 60 |
-| 3 nodes | 60 |
-| 5 nodes | 60 |
-| 7 nodes | 60 |
+| 2 nodes | 75 |
+| 3 nodes | 160 |
+| 5 nodes | 250 |
+| 10 nodes | 300 |
 
 ## Kick-the-tire command
 
@@ -85,7 +87,7 @@ The table below lists the average duration per run in seconds.
 bash run.sh 5 3 10
 ```
 
-It should finish in less than 5 minutes.
+It should finish in less than 20 minutes.
 
 ## One shot command
 
@@ -93,7 +95,7 @@ It should finish in less than 5 minutes.
 bash run.sh 100 2,3,5,10 10
 ```
 
-It will take around 20 hours to finish.
+It will take around 1 day to finish.
 
 ## Produce results from paper
 
@@ -103,8 +105,10 @@ Note. More runs for each set of parameters is preferable to produce more correct
 
 # Futher usage
 
-This codebase was made possible only to compare Jepsen's performance on TPCC with MonkeyDB.
+This codebase was made possible to compare Jepsen's performance on TPCC with MonkeyDB.
 
 We borrowed the java code presented in `tpcc/oltp_src` from authors of [Rahmani et al. 2019] and extended it to make it work for MariaDB cluster.
 
 The MariaDB cluster deployment and setup code is presented in `src/tpcc/core.clj`.
+
+Our script uses Jepsen's [docker setup](https://github.com/jepsen-io/jepsen/tree/main/docker) to deploy clusters.
