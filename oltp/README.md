@@ -140,13 +140,8 @@ Note. More iterations is preferable to produce a more accurate trend. Suggested 
 
 # Futher usage
 
-The main tool we present is MonekyDB. It is just a `cargo` binary project.
-
-To run MonekeyDB, execute `cargo run --release` and MonkeyDB will serve SQL queries at default 3306 port.
-The binary will also be available at `target/release` directory.
+The main contribution is MonkeyDB. It is just a `cargo` binary project. To run MonekeyDB, execute `cargo run --release` and MonkeyDB will serve SQL queries at default 3306 port. The binary will also be available in the `target/release` directory.
 
 You can make MonkeyDB listen to some other port as `cargo run --release -- -a 8800` (check `cargo run --release -- --help`).
 
-Once MonkeyDB up, it is ready to connect to any MySQL client such as MySQL console client or even Rust MySQL client. You can connect to it concurrently.
-
-MonkeyDB currently doesn't support everything that a modern MySQL server does. So some advanced features or complicated SQL queries may not work with MonkeyDB.
+Once MonkeyDB is up, it is ready to connect to any MySQL client such as MySQL console client or even Rust MySQL client. You can connect to it concurrently from multiple terminals as well. MonkeyDB currently does not support everything that a modern MySQL server does. So complex SQL queries may not work with MonkeyDB currently.
