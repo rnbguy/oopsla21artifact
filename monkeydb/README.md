@@ -89,11 +89,11 @@ Benchmark: wikipedia
 15 runs with time limit of 10 secs
 On 3 nodes with "causal" consistency
 Average duration per run: 9 secs
-----------
-Assertion | #Violation among 15 runs | Violation%
-A15       | 9                        | 60.00
-A16       | 9                        | 60.00
-----------
+-----------------------------------------------
+Assertion  #Violation among 15 runs  Violation%
+A15        9                         60.00
+A16        9                         60.00
+-----------------------------------------------
 ```
 
 It briefs about the parameters. Then prints a tables with the number of violations and the percentage of violations.
