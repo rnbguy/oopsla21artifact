@@ -2,8 +2,7 @@ MonekyDB
 ========
 
 # Description
-MonkeyDB is a mock database to produce behvaiors of weaker isolation level deliberately.
-Distributed applications can use this database to expose application level bugs which may only be produced by _corner cases_.
+MonkeyDB is a mock database that is capable of delibrately producing behvaiorspossible under a weaker isolation level. Applications can use MonkeyDB to test the correctness of their logic when using a DB configured with weak isolation level. 
 
 We execute the following four benchmarks from [OLTPBench](https://github.com/oltpbenchmark/oltpbench) (source code included) on MonekyDB.
 - TPCC
@@ -11,7 +10,7 @@ We execute the following four benchmarks from [OLTPBench](https://github.com/olt
 - voter
 - Wikipedia
 
-Then we check for the following assertions (subsection 8.1, 8.2) on these benchmarks and present the number of violation.
+Then we check for the following assertions (subsection 8.1, 8.2) on these benchmarks and present the number of violations.
 - A1-A12 (8.1) for TPCC
 - A13 (8.2) for smallbank
 - A14 (8.2) for voter
@@ -29,53 +28,73 @@ We use four benchmarks from OLTPBench. The code are available at following direc
 
 ## MonkeyDB
 
-The entire MonkeyDB is implemented in Rust and the codes are present inside `src` directory.
+MonkeyDB is implemented in the Rust language. The source code is present inside the `src` directory. It consists of the following components:
 
-- The code for SQL client server connection is present in `src/server.rs`. 
-- The compliation of SQL to KV api presented in section 5 is encoded in `src/sql.rs`.
-- The distributed KV store discussed in Section 6 is implemented in `src/dis_kv.rs`.
+- The SQL client-server connection is present in `src/server.rs`. 
+- The compliation of SQL to Key-Value (KV) api (Section 5) is in `src/sql.rs`.
+- The KV store (Section 6) is implemented in `src/dis_kv.rs`.
 
 # Results from paper
-We present the statistics of our findings as 2D plots in figure 14 and 15 in the paper. This artifact reproduces the same.
+We present the results of our experiments as 2D plots, as in Figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randonmess involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
 
 # Dependencies
+
+We require the following set of dependencies to be installed. 
 - A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
 - Apache Ant (for OLTPBench)
 - MySQL console client (for OLTPBench)
 - libssl, clang
 - Bash and its utilities
 
-If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang`
+We have verified that the following simple commands are enough to install these dependencies.
+- If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang`
+- If you are using pacman, `pacman -S rustup ant mariadb openssl clang; rustup install stable`
 
-If you are using pacman, `pacman -S rustup ant mariadb openssl clang; rustup install stable`
-
-# Instruction
+# Instructions
 
 ## Build
 
-From the current directory, execute `bash build.sh`
+From the current directory, execute `bash build.sh`. This will take around 3 to 15 min, depending on how many packages need to be installed.
 
 ## Step-by-step guide
 
 _Logs will be generated in `log` directory._
 
-To reproduce the results from the plots in Figure 14 and 15 in the paper, execute `run.sh` script.
+To reproduce the results from the plots in Figure 14 and 15 in the paper, execute `run.sh` script. It requires the following parameters:
 
-`bash run.sh <number of runs> <benchmark> <consistency> <number of nodes> <timelimit>`
+`bash run.sh <iterations> <benchmark> <consistency> <number of nodes> <timelimit>`
 
-An example: to check the assertions for `tpcc` under `causal` consistency on `3` replicas with a runtime limit of `10` secs for `20` times, you may run following command
+For example, in order to run `tpcc` under `causal` consistency, configured with `3` replicas for a total of `20` iterations, and a runtime limit of `10` secs per iteration, you may run following command:
 
 `bash run.sh 20 tpcc causal 3 10`
 
-Possible values:
+Possible values of parameters:
 - benchmark: `tpcc`, `smallbank`, `voter`, `wikipedia`
 - consistency: `causal`, `readcommitted`
 
-You can pass comma separated multiple values to run for multiple parameter values together. Example,
+You can pass comma-separated multiple values to run for multiple parameter values together. For example:
 
 `bash run.sh 20 tpcc,smallbank causal,readcommitted 3,5 10`
 
 will run both `tpcc` and `smallbank` under `causal` and `readcommitted` consistency on `3` and `5` replica setup.
+
+## Kick-the-tire command
+
+```
+bash build.sh
+bash run.sh 15 wikipedia causal 3 10
+```
+
+It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
+
+## One shot command
+
+```
+bash build.sh
+bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
+```
+
+It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
 
 ## Output
 
@@ -89,19 +108,16 @@ Benchmark: wikipedia
 15 runs with time limit of 10 secs
 On 3 nodes with "causal" consistency
 Average duration per run: 9 secs
------------------------------------------------
-Assertion  #Violation among 15 runs  Violation%
-A15        9                         60.00
-A16        9                         60.00
------------------------------------------------
+----------
+Assertion | #Violation among 15 runs | Violation%
+A15       | 9                        | 60.00
+A16       | 9                        | 60.00
+----------
 ```
 
-It briefs about the parameters. Then prints a tables with the number of violations and the percentage of violations.
-It also prints an average duration per run.
-
-If an assertion is not present in the table, its count (and also its percentage) is zero.
-
-As the out shows, A15 and A16 were violated 60% time and A17 was not violated at all.
+It briefs about the parameters. Then it prints a table with the number of violations and the percentage of violations.
+It also prints average duration per run. If an assertion is not present in the table, its count (and also its percentage) is zero. 
+The output above shows that `A15` and `A16` were violated 60% times and `A17` was never violated.
 
 ## Runtime
 This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM.
@@ -115,29 +131,13 @@ The table below lists the average duration per run in seconds.
 | 2 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 | 3 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 
-## Kick-the-tire command
 
-```
-bash build.sh
-bash run.sh 10 wikipedia causal 3 10
-```
 
-It should finish in less than 5 minutes.
+## Reproduce results from paper
 
-## One shot command
+The one shot command is enough. But one can also reproduce the results one benchmark at a time.
 
-```
-bash build.sh
-bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
-```
-
-It will take around 20 hours to finish.
-
-## Produce results from paper
-
-The one shot command is enough. But one can reproduce the results one by one.
-
-Note. More runs for each set of parameters is preferable to produce more correct trend. Suggested minimum number of runs is 100.
+Note. More iterations is preferable to produce a more accurate trend. Suggested minimum number of iterations is 100.
 
 # Futher usage
 
@@ -150,4 +150,4 @@ You can make MonkeyDB listen to some other port as `cargo run --release -- -a 88
 
 Once MonkeyDB up, it is ready to connect to any MySQL client such as MySQL console client or even Rust MySQL client. You can connect to it concurrently.
 
-MonkeyDB doesn't support everything that a modern MySQL server does. So some advanced features or complicated SQL queries may not work with MonkeyDB.
+MonkeyDB currently doesn't support everything that a modern MySQL server does. So some advanced features or complicated SQL queries may not work with MonkeyDB.
