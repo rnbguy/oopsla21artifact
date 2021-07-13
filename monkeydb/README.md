@@ -23,6 +23,8 @@ We present the statistics of our findings as 2D plots in figure 14 and 15 in the
 # Dependencies
 - A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
 - Bash and its common utilities
+- Apache Ant + Java (for OLTPBench)
+- MySQL console client (for OLTPBench)
 
 # Instruction
 
@@ -56,6 +58,28 @@ will run both `tpcc` and `smallbank` under `causal` and `readcommitted` consiste
 
 A sample output would look as following,
 
+```
+$ bash run.sh 15 wikipedia causal 3 10
+==========
+Benchmark: wikipedia
+----------
+15 runs with time limit of 10 secs
+On 3 nodes with "causal" consistency
+Average duration per run: 9 secs
+----------
+Assertion | #Violation among 15 runs | Violation%
+A15       | 9                        | 60.00
+A16       | 9                        | 60.00
+----------
+```
+
+It briefs about the parameters. Then prints a tables with the number of violations and the percentage of violations.
+It also prints an average duration per run.
+
+If an assertion is not present in the table, its count (and also its percentage) is zero.
+
+As the out shows, A15 and A16 were violated 60% time and A17 was not violated at all.
+
 ## Runtime
 This particular artifact was run on a Intel-i7 laptop with 16GB RAM.
 
@@ -75,6 +99,8 @@ bash build.sh
 bash run.sh 10 wikipedia causal 3 10
 ```
 
+It should finish in less than 5 minutes.
+
 ## One shot command
 
 ```
@@ -82,10 +108,10 @@ bash build.sh
 bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
 ```
 
-Will take around 20 hours to finish.
+It will take around 20 hours to finish.
 
 ## Produce results from paper
 
 The one shot command is enough. But one can reproduce the results one by one.
 
-Note. More runs for each set of parameters produce more correct trend. Suggested minimum number of runs is 100.
+Note. More runs for each set of parameters is preferable to produce more correct trend. Suggested minimum number of runs is 100.
