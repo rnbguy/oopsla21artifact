@@ -1,8 +1,7 @@
-MonekyDB
-========
+OLTP on MonkeyDB
+================
 
 # Description
-MonkeyDB is a mock database that is capable of delibrately producing behvaiorspossible under a weaker isolation level. Applications can use MonkeyDB to test the correctness of their logic when using a DB configured with weak isolation level. 
 
 We execute the following four benchmarks from [OLTPBench](https://github.com/oltpbenchmark/oltpbench) (source code included) on MonekyDB.
 - TPCC
