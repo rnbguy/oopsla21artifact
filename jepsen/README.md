@@ -2,7 +2,9 @@ Jepsen
 ======
 
 # Description
-Jepsen is a distributed system testing framework. Developers can write tests for their applications or database using Jepsen. We re-implemented the TPCC benchmark using Jepsen and executed it on MariaDB database. Then we caulculate the number of times the A1-A12 assertions for TPCC (subsection 8.1) were violated. 
+Jepsen is a distributed system testing framework. Developers can write tests for their applications or database using Jepsen. We re-implemented the TPCC benchmark using Jepsen and executed it on a MariaDB database. Then we caulculate the number of times the A1-A12 assertions for TPCC (subsection 8.1) were violated. 
+
+One word of caution. We currently use Jepsen's own [docker setup](https://github.com/jepsen-io/jepsen/tree/main/docker). Unfortunately, we did not find this to be very robust --- while on some machines it worked seamlessly, on other (similar) machines, it did not. We are unable to figure out the underlying reason. Given that Jepsen is not our contribution, we did not spend more time debugging this issue with Jepsen. We hope that it works on your machine! 
 
 # Results from paper
 We present our findings as 2D plots in Figure 16 of the paper. This artifact reproduces the same.
