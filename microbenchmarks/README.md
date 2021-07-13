@@ -66,6 +66,15 @@ Each application's violations are summarized in the below table:
  - Number of violations found with the given number of iterations.
  - A plot with the number of unique states observed across different iterations averaged
   across all random test cases for each application. (Location: /MonkeyDB-KV/build-files/applications/plot.pdf)
+   
+   _Note_: PDF can not be viewed directly from docker container so it needs to be copied to host OS using:
+  ```
+docker cp <container_name>:/MonkeyDB-KV/build-files/applications/plot.pdf plot.pdf
+```
+where container name can be found out using command:
+```
+docker ps -a
+```
   
   
 ### Code Structure

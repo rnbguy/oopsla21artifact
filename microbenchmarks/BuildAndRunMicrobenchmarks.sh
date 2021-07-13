@@ -270,6 +270,11 @@ echo "Generating plots for random test cases from the logs..."
 log_dir="$(pwd)/"
 python3 ../../plot_history/plot.py $log_dir $iter > plot_log.txt 2>&1
 
+echo "plot.pdf saved in $log_dir"
+echo "Use docker cp to copy to host OS and view:"
+echo "docker cp <container_name>:$(pwd)/plot.pdf plot.pdf"
+echo "Use this command from host OS to get the container name : docker -ps a "
+
 # Uncomment to display plot pdf, not supported in docker
 #xdg-open plot.pdf
 
