@@ -19,7 +19,7 @@ Then we check for the following assertions (subsection 8.1, 8.2) on these benchm
 
 ## OLTPBench modifications
 
-We use four benchmarks from OLTPBench. The code are available at following directories,
+We use four benchmarks from OLTPBench. As our implementation does not support all the modern SQL syntax, we had to modify some parts of the original OLTPBench code to transform complicated SQL queries into a group of simplified queries. The modified code are available at following directories,
 - `oltpbench/src/com/benchmarks/tpcc`
 - `oltpbench/src/com/benchmarks/smallbank`
 - `oltpbench/src/com/benchmarks/voter`

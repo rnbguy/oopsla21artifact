@@ -12,3 +12,11 @@ that are executed against the SQL interface of MonkeyDB.
 - The directory [`jepsen`](https://github.com/rnbguy/oopsla21artifact/blob/master/jepsen/README.md) supports Section 9 (Comparison to other testing techniques). This experiment does not use MonkeyDB, instead it runs a version of TPCC using Jepsen on a real DB. This reproduces Fig. 16 of the paper.
 
 We note that, for historic reasons, there are two versions of the Key-Value interface for MonkeyDB. The main implementation is the one contained in the `monkeydb` directory. It supports both SQL as well as Key-Value interfaces and resembles the architecture presented in the paper (Fig. 11). We have an alternative implementation in the `microbenchmarks` directory that only support a Key-Value interface. The former is Rust and the latter is C++. Both implementations are semantically the same.
+
+# Requirements
+
+The artifacts are only tested and evaluated on Linux OS with latest versions of softwares. So having a latest unix/linux OS with updated software is suggested for our artifact.
+
+Docker is needed for two artifacts. So have it [installed](https://docs.docker.com/get-docker) and follow the [post installation steps](https://docs.docker.com/engine/install/linux-postinstall) so that you can run `docker` commands without sudo.
+
+The MonkeyDB SQL server is written in Rust. You can setup the stable version of Rust installing [Rustup](https://www.rust-lang.org/tools/install) and running `rustup install stable`.
