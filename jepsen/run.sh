@@ -76,12 +76,13 @@ for node in ${nodes//,/ }; do
 	echo "----------"
 	echo "${total_run} runs on ${nodes} nodes with time limit of ${timelimit} secs"
 	echo "Average duration per run: $(( $dur / $total_run )) secs"
-	echo "----------"
+	echo "----------------------------------------------"
     cat "${CURR_VIO_LOG}" \
     | tr ',' '\n' \
     | sort -n \
     | uniq -c \
-    | awk "{printf \"A%d %d %.2f\n\",\$2,\$1,\$1*100/${total_run}}" \
-    | column -t -N "Assertion,#Violation among ${total_run} runs,Violation%" -o ' | '
-	echo "----------"
+    | awk "{printf \"A%d,%d,%.2f\n\",\$2,\$1,\$1*100/${total_run}}" \
+	| cat <(echo "Assertion,#Violation among ${total_run} runs,Violation%") - \
+    | column -t -s','
+	echo "----------------------------------------------"
 done

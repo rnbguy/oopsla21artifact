@@ -110,14 +110,15 @@ function run_bench() {
 	echo "${total_run} runs with time limit of ${timelimit} secs"
 	echo "On ${nodes} nodes with \"${consistency}\" consistency"
 	echo "Average duration per run: $(( $dur / $total_run )) secs"
-	echo "----------"
+	echo "----------------------------------------------"
 	grep "^assert_id" "${curr_violated_log_dir}/${bench}.out" \
 	| cut -d' ' -f 2 \
     | sort -n \
     | uniq -c \
-    | awk "{printf \"A%d %d %.2f\n\",\$2,\$1,\$1*100/${total_run}}" \
-    | column -t -N "Assertion,#Violation among ${total_run} runs,Violation%" -o ' | '
-	echo "----------"
+    | awk "{printf \"A%d,%d,%.2f\n\",\$2,\$1,\$1*100/${total_run}}" \
+	| cat <(echo "Assertion,#Violation among ${total_run} runs,Violation%") - \
+    | column -t -s','
+	echo "----------------------------------------------"
 }
 
 # build
