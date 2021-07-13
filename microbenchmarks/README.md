@@ -34,6 +34,8 @@ or
 ./BuildAndRunMicrobenchmarks.sh -i 5000 -t 50
 ```
 
+This will generate the final plots as PDF. Please see the [output](https://github.com/rnbguy/oopsla21artifact/blob/master/microbenchmarks/README.md#output) section.
+
 **Notes**
 - If running the script `BuildAndRunMicrobenchmarks` returns an error `$'\r': command not found` then run this command first to get rid of the carriage return characters `sed 's/\r$//' BuildAndRunMicrobenchmarks.sh > BuildAndRunMicrobenchmarksFixed.sh`. Then do `chmod u+x BuildAndRunMicrobenchmarksFixed.sh` and finally use `BuildAndRunMicrobenchmarksFixed` in place of the original script `BuildAndRunMicrobenchmarks`.
 - The parameters used above can take a long time (~ one day), so it is recommended to run with smaller iterations/test-cases, for instance:
@@ -44,31 +46,29 @@ or
 - We use DFS (Depth First Search) to compute maximum number of possible states, but it will likely not finish within 5000 iterations, in which case it will indicate that the max states could not be computed correctly. In order to limit the overall time for running experiments, it is necessary to restrict the number of iterations. As a result, the plot containing `causal_max` and `serializability_max` might not indicate true value of the total number of states. In our paper, we ran the experiment for much longer (over multiple days) to let DFS finish without bounding iterations. 
   
 
-To reproduce the assertions failure (Table 1), run the application individually with a small number of iterations and time the command:
+In order to reproduce the assertions failure experiment (Table 1), run each application individually with a small number of iterations and time the command. For instance:
 
 ```
 cd build-files/applications/
 time ./twitter_app twitter.log 20 causal fixed 1 1
-time ./shopping_cart_app cart.log 25 causal fixed 1 1
+time ./shopping_cart_app cart.log 20 causal fixed 1 1
 ```
 
-Which runs the applications with small (20 or 25) iterations with causal.
-The time it took for each iteration is also present in logs (logged with the iteration end statement - in microseconds). We used the time printed in the logs for Table 1 in paper.
+This will runs the applications with small number of iterations (20) with causal consistency. The time it took for each iteration is also present in logs (logged with the iteration end statement - in microseconds). We used the time printed in the logs for Table 1 in paper.
 
 
 ## Microbenchmarks
 
-The BuildAndRunMicrobenchmarks script runs all the applications with the specified number of iterations
-and random test cases. The applications include:
+The applications include the following:
 - Shopping Cart
 - Courseware
 - Stack
 - Twitter
 
-There are two kinds of experiments for each application:
-- _Random_ : Client randomly chooses the operations, subject to pre-defined
-           number of operations and threads (min: 2 and max: 3).
-- _Fixed_  : A fixed test client to find violation in the application.
+There are two kinds of experiments for each application that differ in how the test driver invokes the application.
+- _Random_ : The test driver randomly chooses from one of the application operations, subject to pre-defined
+           maximum number of operations and threads (min: 2 and max: 3). This mode is used for state coverge (Fig. 13).
+- _Fixed_  : A fixed test driver to find specific violation in the application. This mode is used for assertion violations (Table 1).
 
 Each application's violations are summarized in the below table:
 
@@ -102,15 +102,10 @@ MonkeyDB key-value interface is written as a C++ library that can be included in
 - get(_key_: x, _session-id_)
 - put(_key_: x, _value_: y, _session-id_)
 
-_Session-id_ is an optional parameter which can be used to uniquely identify different clients interacting with the store.
+_Session-id_ is an optional parameter that can be used to uniquely identify different clients interacting with the store. We internally use a consistency checker to return a randomly chosen value which is consistent with the specified isolation level. MonkeyDB KV-interface currently supports causal and serializability.
 
-We internally use a consistency checker to return a randomly chosen value which is consistent with the specified isolation level. MonkeyDB KV-interface currently supports causal and serializability.
+The kv-interface is defined in `kv_store/include/kv_store.h` and the HTTP interface is defined in `kv_store/include/http_server.h`. The history of all the operations is stored within the kv-store, which is used by the consistency-checker (defined in `kv_store/include/consistency_checker.h`) to choose a response for read operation. The writes do not exhibit any randomness and are simply added to the history, creating a new version of the key. We have made the library extensible as more isolation levels can be easily added by extending the `consistency_checker` interface.
 
-The kv-interface is defined in kv_store/include/kv_store.h and the HTTP interface is defined in kv_store/include/http_server.h.
-
-The history of all the operations is stored within the kv-store, which is used by the consistency-checker (defined in kv_store/include/consistency_checker.h) to choose a response for read operation. The writes do not exhibit any randomness and are simply added to the history, creating a new version of the key.
-
-We have made the library extensible as more isolation levels can be easily added by extending the consistency_checker interface.
 #### Applications
 For each application, the source code contains:
 
@@ -118,7 +113,7 @@ For each application, the source code contains:
 
 * Application API which is used by the client and its implementation using the key-value store interface
 
-* Client code which can run in two modes:
+* Client code (test driver) which can run in two modes:
   * randomly select operations
   * specific operations with assertions
   
@@ -152,3 +147,4 @@ Code structure of each application is as follows:
   * Client: run_stack.cpp
     * Assertion: Element popped more than once
 
+The reader can easily play around with the source code of these benchmarks. For instance, you can modify the test driver or the assertions or even the applications, and then rebuild and re-run the application as outlined above. As a fun exercise problem, you can even try to fix the assertion violations in each application! 
