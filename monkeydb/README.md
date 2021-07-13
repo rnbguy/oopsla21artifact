@@ -17,15 +17,37 @@ Then we check for the following assertions (subsection 8.1, 8.2) on these benchm
 - A14 (8.2) for voter
 - A15-A17 (8.2) for wikipedia
 
+# Implementation
+
+## OLTPBench modifications
+
+We use four benchmarks from OLTPBench. The code are available at following directories,
+- `oltpbench/src/com/benchmarks/tpcc`
+- `oltpbench/src/com/benchmarks/smallbank`
+- `oltpbench/src/com/benchmarks/voter`
+- `oltpbench/src/com/benchmarks/wikipedia`
+
+## MonkeyDB
+
+The entire MonkeyDB is implemented in Rust and the codes are present inside `src` directory.
+
+- The code for SQL client server connection is present in `src/server.rs`. 
+- The compliation of SQL to KV api presented in section 5 is encoded in `src/sql.rs`.
+- The distributed KV store discussed in Section 6 is implemented in `src/dis_kv.rs`.
+
 # Results from paper
 We present the statistics of our findings as 2D plots in figure 14 and 15 in the paper. This artifact reproduces the same.
 
 # Dependencies
 - A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
-- Bash and its common utilities
 - Apache Ant (for OLTPBench)
 - MySQL console client (for OLTPBench)
 - libssl, clang
+- Bash and its utilities
+
+If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang`
+
+If you are using pacman, `pacman -S rustup ant mariadb openssl clang; rustup install stable`
 
 # Instruction
 
@@ -33,7 +55,7 @@ We present the statistics of our findings as 2D plots in figure 14 and 15 in the
 
 From the current directory, execute `bash build.sh`
 
-## Execute
+## Step-by-step guide
 
 _Logs will be generated in `log` directory._
 
@@ -116,3 +138,16 @@ It will take around 20 hours to finish.
 The one shot command is enough. But one can reproduce the results one by one.
 
 Note. More runs for each set of parameters is preferable to produce more correct trend. Suggested minimum number of runs is 100.
+
+# Futher usage
+
+The main tool we present is MonekyDB. It is just a `cargo` binary project.
+
+To run MonekeyDB, execute `cargo run --release` and MonkeyDB will serve SQL queries at default 3306 port.
+The binary will also be available at `target/release` directory.
+
+You can make MonkeyDB listen to some other port as `cargo run --release -- -a 8800` (check `cargo run --release -- --help`).
+
+Once MonkeyDB up, it is ready to connect to any MySQL client such as MySQL console client or even Rust MySQL client. You can connect to it concurrently.
+
+MonkeyDB doesn't support everything that a modern MySQL server does. So some advanced features or complicated SQL queries may not work with MonkeyDB.
