@@ -2,15 +2,10 @@ Jepsen
 ======
 
 # Description
-Jepsen is a distributed system testing framework.
-Developers can write tests for their applications or database using Jepsen.
-
-We implement TPCC benchmark using Jepsen and executed it on MariaDB database.
-
-Then we check for the A1-A12 assertions (subsection 8.1) for TPCC and present the number of violation.
+Jepsen is a distributed system testing framework. Developers can write tests for their applications or database using Jepsen. We re-implemented the TPCC benchmark using Jepsen and executed it on MariaDB database. Then we caulculate the number of times the A1-A12 assertions for TPCC (subsection 8.1) were violated. 
 
 # Results from paper
-We present the statistics of our findings as 2D plots in figure 16 in the paper. This artifact reproduces the same.
+We present our findings as 2D plots in Figure 16 of the paper. This artifact reproduces the same.
 
 # Dependencies
 - docker-compose and docker
@@ -21,7 +16,7 @@ If you are using apt, `sudo apt install docker-compose; sudo gpasswd -a <usernam
 If you are using pacman, `sudo pacman -S docker-compose; sudo gpasswd -a <username> docker; sudo systemctl enable docker` and rebbot.
 If you are using something different than `systemctl`, change the command accordingly.
 
-# Instruction
+# Instructions
 
 ## First run
 
@@ -33,17 +28,33 @@ _Logs will be generated in `log` directory._
 
 To reproduce the results from the plots in Figure 16 in the paper, execute `run.sh` script.
 
-`bash run.sh <number of runs> <number of nodes> <timelimit>`
+`bash run.sh <iterations> <number of nodes> <timelimit>`
 
-To check the assertions for `tpcc` on `3` replicas with a runtime limit of `10` secs for `20` times, you may run following command
+To check the assertions for TPCC on `3` replicas with a runtime limit of `10` secs per iteration, for `20` iterations, you may run following command:
 
 `bash run.sh 20 3 10`
 
-You can pass comma separated multiple values for number of nodes to run for multiple parameter values together. Example,
+You can pass comma-separated multiple values for number of nodes to run for multiple parameter values together. Example,
 
 `bash run.sh 20 3,5 10`
 
-will run both on `3` and `5` replica setup for `10` seconds timelimit.
+will run both on `3` and `5` replica setup for `10` seconds timelimit per iteration, for `20` iterations.
+
+## Kick-the-tire command
+
+```
+bash run.sh 3 3 10
+```
+
+It should finish in less than 20 minutes. See below for expected output.
+
+## One shot command
+
+```
+bash run.sh 100 2,3,5,10 10
+```
+
+It will take around 1 day to finish.
 
 ## Output
 
@@ -67,15 +78,11 @@ A12        2                        66.67
 -----------------------------------------------
 ```
 
-It briefs about the parameters. Then prints a tables with the number of violations and the percentage of violations.
-It also prints an average duration per run.
-
-If an assertion is not present in the table, its count (and also its percentage) is zero.
+The outupt briefs about the parameter values used. Then it prints a table with the number of violations and the percentage of violations.
+It also prints an average duration per iteration. If an assertion is not present in the table, its count (and also its percentage) is zero.
 
 ## Runtime
-This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM.
-
-The table below lists the average duration per run in seconds.
+This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM. The table below lists the expected duration per run in seconds.
 
 | benchmarks | tpcc |
 |-|:-:|
@@ -84,34 +91,10 @@ The table below lists the average duration per run in seconds.
 | 5 nodes | 250 |
 | 10 nodes | 300 |
 
-## Kick-the-tire command
+## Reproduce results from paper
 
-```
-bash run.sh 5 3 10
-```
-
-It should finish in less than 20 minutes.
-
-## One shot command
-
-```
-bash run.sh 100 2,3,5,10 10
-```
-
-It will take around 1 day to finish.
-
-## Produce results from paper
-
-The one shot command is enough. But one can reproduce the results one by one.
-
-Note. More runs for each set of parameters is preferable to produce more correct trend. Suggested minimum number of runs is 100.
+The one shot command is enough. But one can also reproduce the results one benchmark at a time. Note. More iterations for each set of parameters is preferable to produce more correct trend. Suggested minimum number of iterations is 100.
 
 # Futher usage
 
-This codebase was made possible to compare Jepsen's performance on TPCC with MonkeyDB.
-
-We borrowed the java code presented in `tpcc/oltp_src` from authors of [Rahmani et al. 2019] and extended it to make it work for MariaDB cluster.
-
-The MariaDB cluster deployment and setup code is presented in `src/tpcc/core.clj`.
-
-Our script uses Jepsen's [docker setup](https://github.com/jepsen-io/jepsen/tree/main/docker) to deploy clusters.
+This code was to compare Jepsen's performance on TPCC with MonkeyDB. We borrowed the java code presented in `tpcc/oltp_src` from authors of [Rahmani et al. 2019] and extended it to make it work for a MariaDB cluster. The MariaDB cluster deployment and setup code is presented in `src/tpcc/core.clj`. Our script uses Jepsen's [docker setup](https://github.com/jepsen-io/jepsen/tree/main/docker) to deploy clusters.
