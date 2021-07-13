@@ -1,5 +1,12 @@
-# MonkeyDB KV-Store
-### Run Using Docker
+# MonkeyDB Microbenchmarks
+
+## Dependencies
+
+This requires docker.
+
+## Build
+
+For building, simply run the following:
 ```
 docker build .
 ```
