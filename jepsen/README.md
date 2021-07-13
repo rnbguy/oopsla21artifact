@@ -50,18 +50,22 @@ will run both on `3` and `5` replica setup for `10` seconds timelimit.
 A sample output would look as following,
 
 ```
-$ bash run.sh 15 wikipedia causal 3 10
+$ bash run.sh 3 3 10
 ==========
-Benchmark: wikipedia
+TPCC on Jepsen + MariaDB cluster
 ----------
-15 runs with time limit of 10 secs
-On 3 nodes with "causal" consistency
-Average duration per run: 9 secs
+3 runs on 3 nodes with time limit of 10 secs
+Average duration per run: 152 secs
 ----------
-Assertion | #Violation among 15 runs | Violation%
-A15       | 9                        | 60.00
-A16       | 9                        | 60.00
+Assertion | #Violation among 3 runs | Violation%
+A1        | 3                       | 100.00
+A4        | 3                       | 100.00
+A8        | 3                       | 100.00
+A9        | 3                       | 100.00
+A10       | 3                       | 100.00
+A12       | 2                       | 66.67
 ----------
+
 ```
 
 It briefs about the parameters. Then prints a tables with the number of violations and the percentage of violations.
