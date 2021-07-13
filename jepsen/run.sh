@@ -25,14 +25,14 @@ function run_bench {
     sleep 2
     PID="$!"
     while true; do
-        count=`grep "Debian GNU/Linux 10 n[0-9]\+ console" "${CURR_DIR}/up.out" | wc -l`
+        count=`grep "Welcome to \[1mDebian GNU/Linux 10 (buster)\[0m!" "${CURR_DIR}/up.out" | wc -l`
         if [ "$count" -eq "5" ]; then
             break
         fi
         sleep 1
     done
 
-    ## docker instances are live now
+    # echo docker instances are live now
 
     ## jepsen test
     docker exec -it jepsen-control bash -c ". /root/.bashrc; cd /jepsen/tpcc; lein run test --time-limit ${timelimit} --nodes ${nodestr}" > "${CURR_DIR}/jepsen.out"
