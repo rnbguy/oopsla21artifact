@@ -145,3 +145,16 @@ The main contribution is MonkeyDB. It is just a `cargo` binary project. To run M
 You can make MonkeyDB listen to some other port as `cargo run --release -- -a 8800` (check `cargo run --release -- --help`).
 
 Once MonkeyDB is up, it is ready to connect to any MySQL client such as MySQL console client or even Rust MySQL client. You can connect to it concurrently from multiple terminals as well. MonkeyDB currently does not support everything that a modern MySQL server does. So complex SQL queries may not work with MonkeyDB currently.
+
+## Special commands for MonkeyDB
+
+There are few special commands for MonekyDB.
+
+| Query | Description |
+|-|-|
+|`reset`|Erase the whole database|
+|`loading reset`|Reset the database back to loading phase and start weak consistency|
+|`set consistency (readcommitted\|causal)`|Set consistency level|
+
+1. By default, MonkeyDB starts with a Serializable level. At this point, we can load unambiguous initial data to MonkeyDB. We execute OLTPBench's loading phase at this point.
+2. Then we send `loading reset` command to stop the loading phase and move to a weak consistent database. We execute OLTPBench's execution phase at this point. By default, the level is Causal Consistency.
