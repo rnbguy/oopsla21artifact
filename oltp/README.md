@@ -158,3 +158,25 @@ There are few special commands for MonekyDB.
 
 1. By default, MonkeyDB starts with a Serializable level. At this point, we can load unambiguous initial data to MonkeyDB. We execute OLTPBench's loading phase at this point.
 2. Then we send `loading reset` command to stop the loading phase and move to a weak consistent database. We execute OLTPBench's execution phase at this point. By default, the level is Causal Consistency.
+
+### `commit` at the end of transactions
+
+MonkeyDB processes each request in a sequence. The requests may possibly come in parallel. This is why the transactions must be committed before starting new transactions in a separate session, otherwise, the new transactions will stay blocked.
+
+For example, if we have two MySQL client consoles - `mysql1` and `mysql2`
+
+If we run something on `mysql1` first.
+
+```
+mysql1> SELECT * FROM Table;
+...
+```
+
+and run something on `mysql2` later before committing on `mysql1`.
+
+```
+mysql2> SELECT * FROM Table;
+# stuck here 
+```
+
+Then `mysql2` will stay blocked until `commit` is called on `mysql1`.
