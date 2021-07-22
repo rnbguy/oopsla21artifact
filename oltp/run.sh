@@ -1,6 +1,6 @@
 set -m
 
-LOG_DIR=`readlink -f ../monkeydb/log`
+LOG_DIR=`readlink -f log`
 
 mkdir -p ${LOG_DIR}
 
@@ -11,7 +11,7 @@ ASSERT_DIR="${LOG_DIR}/monkeydb_asserts"
 mkdir -p ${ASSERT_DIR}
 
 OLTP_DIR=`readlink -f oltpbench`
-MONKEYDB_DIR=`readlink -f ../monkeydb`
+MONKEYDB_DIR=`readlink -f .`
 
 function now {
     date +%Y-%m-%d-%H-%M-%S
