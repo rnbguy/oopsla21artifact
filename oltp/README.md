@@ -34,6 +34,7 @@ MonkeyDB is implemented in the Rust language. The source code is present inside 
 - The KV store (Section 6) is implemented in `src/dis_kv.rs`.
 
 # Results from paper
+
 We present the results of our experiments as 2D plots, as in figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randomness involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
 
 # Dependencies
@@ -95,6 +96,8 @@ bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
 
 It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
 
+An expected output example of the _one-shot_ command with `20` runs is available at [`output_example.txt`](output_example.txt).
+
 ## Output
 
 A sample output would look as follows,
@@ -119,6 +122,7 @@ It also prints the average duration per run. If an assertion is not present in t
 The output above shows that `A15` and `A16` were violated 60% times and `A17` was never violated.
 
 ## Runtime
+
 This particular artifact was run on an Intel-i7 (gen 7) laptop with 16GB RAM.
 
 The table below lists the average duration per run in seconds.
