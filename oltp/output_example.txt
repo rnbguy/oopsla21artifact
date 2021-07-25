@@ -1,1 +1,198 @@
-TODO: update it when the execution is finished
+[oltp] $ bash run.sh 20 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
+==========
+Benchmark: tpcc
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "causal" consistency
+Average duration per run: 62 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A1         17                        85.00
+A8         17                        85.00
+A10        17                        85.00
+A12        4                         20.00
+----------------------------------------------
+==========
+Benchmark: smallbank
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "causal" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A13        20                        100.00
+----------------------------------------------
+==========
+Benchmark: voter
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "causal" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A14        7                         35.00
+----------------------------------------------
+==========
+Benchmark: wikipedia
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "causal" consistency
+Average duration per run: 11 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A15        15                        75.00
+A16        15                        75.00
+A17        2                         10.00
+----------------------------------------------
+==========
+Benchmark: tpcc
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "readcommitted" consistency
+Average duration per run: 205 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A1         20                        100.00
+A2         20                        100.00
+A3         17                        85.00
+A4         20                        100.00
+A7         11                        55.00
+A8         19                        95.00
+A9         20                        100.00
+A10        19                        95.00
+A11        20                        100.00
+A12        19                        95.00
+----------------------------------------------
+==========
+Benchmark: smallbank
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "readcommitted" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A13        19                        95.00
+----------------------------------------------
+==========
+Benchmark: voter
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "readcommitted" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A14        17                        85.00
+----------------------------------------------
+==========
+Benchmark: wikipedia
+----------
+20 runs with time limit of 10 secs
+On 2 nodes with "readcommitted" consistency
+Average duration per run: 49 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A15        16                        80.00
+A16        16                        80.00
+A17        11                        55.00
+----------------------------------------------
+==========
+Benchmark: tpcc
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "causal" consistency
+Average duration per run: 51 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A1         18                        90.00
+A2         6                         30.00
+A4         13                        65.00
+A6         12                        60.00
+A8         17                        85.00
+A9         16                        80.00
+A10        16                        80.00
+A12        6                         30.00
+----------------------------------------------
+==========
+Benchmark: smallbank
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "causal" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A13        19                        95.00
+----------------------------------------------
+==========
+Benchmark: voter
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "causal" consistency
+Average duration per run: 12 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A14        17                        85.00
+----------------------------------------------
+==========
+Benchmark: wikipedia
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "causal" consistency
+Average duration per run: 17 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A15        20                        100.00
+A16        20                        100.00
+A17        2                         10.00
+----------------------------------------------
+==========
+Benchmark: tpcc
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "readcommitted" consistency
+Average duration per run: 156 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A1         18                        90.00
+A2         19                        95.00
+A3         16                        80.00
+A4         19                        95.00
+A6         5                         25.00
+A7         3                         15.00
+A8         19                        95.00
+A9         19                        95.00
+A10        18                        90.00
+A11        18                        90.00
+A12        18                        90.00
+----------------------------------------------
+==========
+Benchmark: smallbank
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "readcommitted" consistency
+Average duration per run: 11 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A13        19                        95.00
+----------------------------------------------
+==========
+Benchmark: voter
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "readcommitted" consistency
+Average duration per run: 11 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A14        17                        85.00
+----------------------------------------------
+==========
+Benchmark: wikipedia
+----------
+20 runs with time limit of 10 secs
+On 3 nodes with "readcommitted" consistency
+Average duration per run: 13 secs
+----------------------------------------------
+Assertion  #Violation among 20 runs  Violation%
+A15        19                        95.00
+A16        19                        95.00
+A17        14                        70.00
+----------------------------------------------
