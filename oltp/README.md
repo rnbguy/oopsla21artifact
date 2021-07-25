@@ -19,7 +19,7 @@ Then we check for the following assertions (subsection 8.1, 8.2) on these benchm
 
 ## OLTPBench modifications
 
-We use four benchmarks from OLTPBench. As our implementation does not support all the modern SQL syntax, we had to modify some parts of the original OLTPBench code to transform complicated SQL queries into a group of simplified queries. The modified code are available at following directories,
+We use four benchmarks from OLTPBench. As our implementation does not support all the modern SQL syntax, we had to modify some parts of the original OLTPBench code to transform complicated SQL queries into a group of simplified queries. The modified codes are available in the following directories,
 - `oltpbench/src/com/benchmarks/tpcc`
 - `oltpbench/src/com/benchmarks/smallbank`
 - `oltpbench/src/com/benchmarks/voter`
@@ -34,7 +34,7 @@ MonkeyDB is implemented in the Rust language. The source code is present inside 
 - The KV store (Section 6) is implemented in `src/dis_kv.rs`.
 
 # Results from paper
-We present the results of our experiments as 2D plots, as in Figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randonmess involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
+We present the results of our experiments as 2D plots, as in figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randomness involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
 
 # Dependencies
 
@@ -63,7 +63,7 @@ To reproduce the results from the plots in Figure 14 and 15 in the paper, execut
 
 `bash run.sh <iterations> <benchmark> <consistency> <number of nodes> <timelimit>`
 
-For example, in order to run `tpcc` under `causal` consistency, configured with `3` replicas for a total of `20` iterations, and a runtime limit of `10` secs per iteration, you may run following command:
+For example, in order to run `tpcc` under `causal` consistency, configured with `3` replicas for a total of `20` iterations, and a runtime limit of `10` secs per iteration, you may run the following command:
 
 `bash run.sh 20 tpcc causal 3 10`
 
@@ -71,7 +71,7 @@ Possible values of parameters:
 - benchmark: `tpcc`, `smallbank`, `voter`, `wikipedia`
 - consistency: `causal`, `readcommitted`
 
-You can pass comma-separated multiple values to run for multiple parameter values together. For example:
+You can pass comma-separated multiple values to run for multiple configurations together. For example:
 
 `bash run.sh 20 tpcc,smallbank causal,readcommitted 3,5 10`
 
@@ -86,7 +86,7 @@ bash run.sh 15 wikipedia causal 3 10
 
 It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
 
-## One shot command
+## One-shot command
 
 ```
 bash build.sh
@@ -97,7 +97,7 @@ It will take around 20 hours to finish and will most closely resemble the result
 
 ## Output
 
-A sample output would look as following,
+A sample output would look as follows,
 
 ```
 $ bash run.sh 15 wikipedia causal 3 10
@@ -115,11 +115,11 @@ A16        9                         60.00
 ```
 
 It briefs about the parameters. Then it prints a table with the number of violations and the percentage of violations.
-It also prints average duration per run. If an assertion is not present in the table, its count (and also its percentage) is zero. 
+It also prints the average duration per run. If an assertion is not present in the table, its count (and also its percentage) is zero. 
 The output above shows that `A15` and `A16` were violated 60% times and `A17` was never violated.
 
 ## Runtime
-This particular artifact was run on a Intel-i7 (gen 7) laptop with 16GB RAM.
+This particular artifact was run on an Intel-i7 (gen 7) laptop with 16GB RAM.
 
 The table below lists the average duration per run in seconds.
 
@@ -130,13 +130,11 @@ The table below lists the average duration per run in seconds.
 | 2 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 | 3 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 
-
-
 ## Reproduce results from paper
 
-The one shot command is enough. But one can also reproduce the results one benchmark at a time.
+The one-shot command is enough. But one can also reproduce the results one benchmark at a time.
 
-Note. More iterations is preferable to produce a more accurate trend. Suggested minimum number of iterations is 100.
+Note. More number of iterations is preferable to produce a more accurate trend. The suggested minimum number of iterations is 100.
 
 # Futher usage
 
@@ -161,7 +159,7 @@ There are few special commands for MonekyDB.
 
 ### `commit` at the end of transactions
 
-MonkeyDB processes each request in a sequence. The requests may possibly come in parallel. This is why the transactions must be committed before starting new transactions in a separate session, otherwise, the new transactions will stay blocked.
+MonkeyDB processes each request in a sequence. The requests possibly come in parallel. This is why the transactions must be committed before starting new transactions in a separate session, otherwise, the new transactions will stay blocked.
 
 For example, if we have two MySQL client consoles - `mysql1` and `mysql2`
 
