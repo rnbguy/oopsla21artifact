@@ -163,18 +163,18 @@ There are few special commands for MonekyDB.
 
 ### `commit` at the end of transactions
 
-MonkeyDB processes each request in a sequence. The requests possibly come in parallel. This is why the transactions must be committed before starting new transactions in a separate session, otherwise, the new transactions will stay blocked.
+MonkeyDB processes each transaction in a sequence. The transaction requests possibly come in parallel. So a transaction on session A stays blocked, until a previously started transaction commits on session B. This is why the transactions must be committed before progressing on transactions in a different session.
 
 For example, if we have two MySQL client consoles - `mysql1` and `mysql2`
 
-If we run something on `mysql1` first.
+If we query something on `mysql1` first.
 
 ```
 mysql1> SELECT * FROM Table;
 ...
 ```
 
-and run something on `mysql2` later before committing on `mysql1`.
+and, before _committing_ on `mysql1`, we query on `mysql2`.
 
 ```
 mysql2> SELECT * FROM Table;
@@ -182,3 +182,7 @@ mysql2> SELECT * FROM Table;
 ```
 
 Then `mysql2` will stay blocked until `commit` is called on `mysql1`.
+
+```
+mysql1> commit;
+```
