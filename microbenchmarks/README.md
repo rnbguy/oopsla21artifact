@@ -34,7 +34,7 @@ or
 ./BuildAndRunMicrobenchmarks.sh -i 5000 -t 50
 ```
 
-This will generate the final plots as PDF. Please see the [output](https://github.com/rnbguy/oopsla21artifact/blob/master/microbenchmarks/README.md#output) section.
+This will generate the final plots as PDF. Please see the [output](#output) section.
 
 **Notes**
 - If running the script `BuildAndRunMicrobenchmarks` returns an error `$'\r': command not found` then run this command first to get rid of the carriage return characters `sed 's/\r$//' BuildAndRunMicrobenchmarks.sh > BuildAndRunMicrobenchmarksFixed.sh`. Then do `chmod u+x BuildAndRunMicrobenchmarksFixed.sh` and finally use `BuildAndRunMicrobenchmarksFixed` in place of the original script `BuildAndRunMicrobenchmarks`.

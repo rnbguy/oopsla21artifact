@@ -32,7 +32,7 @@ bash run.sh 15 wikipedia causal 3 10
 
 ### Concern 2
 
-We added an example output for `oltp` artifact at `oltp/output_example.txt`. We used the following command
+We added an example output for `oltp` artifact at [`oltp/output_example.txt`](oltp/output_example.txt). We used the following command
 
 ```
 [oltp] $ bash run.sh 20 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10 > output_example.txt
