@@ -87,15 +87,18 @@ bash run.sh 15 wikipedia causal 3 10
 
 It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
 
-## In case of dependency problems
+## Docker instructions in the case of dependency problems
 
-If somehow the above dependencies do not work properly, you can run this artifact inside a docker container. We provide two working examples.
+If the above command is not executed expectedly (probably because of unusual dependency issues), you can run this artifact inside docker containers.
+We provide working examples for two different docker image choices. You can choose any of them according to your preference.
 
-### Ubuntu
+_Docker containers are supported by any OS [as long as it is installed](https://docs.docker.com/get-started)._
+
+### Ubuntu 20.04 docker image
 
 ```
 # start the container
-docker run --rm -it ubuntu
+docker run --rm -it ubuntu:focal-20210713
 # inside the container
 apt update
 apt install -y git cargo ant mariadb-client libssl-dev clang bsdmainutils pkg-config
@@ -108,11 +111,11 @@ bash run.sh 15 wikipedia causal 3 10
 ...
 ```
 
-### Archlinux
+### Archlinux docker image
 
 ```
 # start the container
-docker run --rm -it archlinux
+docker run --rm -it archlinux:20210718.0.29333
 # inside the container
 pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
 rustup install stable
