@@ -85,18 +85,23 @@ function run_bench() {
     timelimit=$5
     curr_violated_log_dir=`mktemp -d ${ASSERT_DIR}/$(now)_XXX`
     dur=0
-    for i in `seq 1 ${total_run}`; do
-        start=`date +%s`
-        setup_oltp_run ${bench} ${nodes} "${timelimit}" "${consistency}" >> "${curr_violated_log_dir}/${bench}.out" 2>&1
-        end=`date +%s`
-        dur=$(($dur + $end - $start))
-    done
     echo "=========="
     echo "Benchmark: ${bench}"
     echo "----------"
     echo "${total_run} runs with time limit of ${timelimit} secs"
     echo "On ${nodes} nodes with \"${consistency}\" consistency"
-    echo "Average duration per run: $(( $dur / $total_run )) secs"
+    for i in `seq 1 ${total_run}`; do
+        start=`date +%s`
+        setup_oltp_run ${bench} ${nodes} "${timelimit}" "${consistency}" >> "${curr_violated_log_dir}/${bench}.out" 2>&1
+        end=`date +%s`
+        dur=$(($dur + $end - $start))
+
+        # progressbar
+        p=$((20 * i / total_run))
+        printf "\e[K%-*s" $((p)) '[' | tr ' ' '#'
+        printf "%*s%3d%%\r"  $((20-p))  ']' "$((p*5))"
+    done
+    echo -e "\e[KAverage duration per run: $(( $dur / $total_run )) secs"
     echo "----------------------------------------------"
     grep "^assert_id" "${curr_violated_log_dir}/${bench}.out" \
     | cut -d' ' -f 2 \
