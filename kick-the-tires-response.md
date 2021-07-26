@@ -33,10 +33,11 @@ cd ../oltp
 # read the README file (which is section `oltp` from the instructions)
 less README.md
 
-# Experiment with oltp
-bash build.sh
-bash run.sh 15 wikipedia causal 3 10
+# Build and run a docker image, etc.
+# Experiment more with oltp 
 ...
+
+# Exit docker (if inside it)
 
 # Go inside the oopsla21artifact/jepsen directory
 cd ../jepsen
@@ -66,4 +67,4 @@ This is essentially the _one-shot_ command but with 20 runs per unique configura
 ### Concern 3 [Reviewer B, C]
 > Error running script
 
-Apologies for the `mkdir` error. There was a small mistake in the script `oltp/run.sh` that we have now fixed and updated in our Github Repository.
+Apologies for the `mkdir` error. There was a small mistake in the script `oltp/run.sh` that we have now fixed and updated in our Github Repository. We have revised instructions for the oltp benchmarks to build and run a docker image. That should ensure that these issues are fixed and it is much easier to run the artifact.
