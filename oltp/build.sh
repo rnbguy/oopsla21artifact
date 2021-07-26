@@ -13,7 +13,7 @@ function build() {
 
 
 function dep_check_one {
-    [ -z $1 ] || which $1 2> /dev/null || echo "make sure \"$1\" is installed."
+    [ -z $1 ] || which $1 2> /dev/null || echo "  $1"
 }
 
 function dep_check_all {
@@ -23,6 +23,6 @@ function dep_check_all {
 }
 
 check=`dep_check_all`
-[ -z $check ] || echo $check && exit 1
+[ -z "$check" ] || echo -e "not found:\n$check" && exit 1
 
 build
