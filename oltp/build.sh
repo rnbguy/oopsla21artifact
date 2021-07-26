@@ -13,7 +13,7 @@ function build() {
 
 
 function dep_check_one {
-    [ -z $1 ] || which $1 2> /dev/null || echo "  $1"
+    [ -z $1 ] || which $1 > /dev/null 2>&1 || echo "  $1"
 }
 
 function dep_check_all {
