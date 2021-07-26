@@ -50,43 +50,6 @@ We have verified that the following simple commands are enough to install these 
 - If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang bsdmainutils`
 - If you are using pacman, `pacman -S rustup ant mariadb openssl clang base-devel --needed; rustup install stable`
 
-## In case of dependency problems
-
-If somehow the above dependencies do not work properly, you can run this artifact inside a docker container. We provide two working examples.
-
-### Ubuntu
-
-```
-# start the container
-docker run --rm -it ubuntu
-# inside the container
-apt update
-apt install -y git cargo ant mariadb-client libssl-dev clang bsdmainutils pkg-config
-pkg-config libssl
-cd ~
-git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
-cd oopsla21artifact/oltp
-bash build.sh
-bash run.sh 15 wikipedia causal 3 10
-...
-```
-
-### Archlinux
-
-```
-# start the container
-docker run --rm -it archlinux
-# inside the container
-pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
-rustup install stable
-cd ~
-git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
-cd oopsla21artifact/oltp
-bash build.sh
-bash run.sh 15 wikipedia causal 3 10
-...
-```
-
 # Instructions
 
 ## Build
@@ -124,16 +87,42 @@ bash run.sh 15 wikipedia causal 3 10
 
 It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
 
-## One-shot command
+## In case of dependency problems
+
+If somehow the above dependencies do not work properly, you can run this artifact inside a docker container. We provide two working examples.
+
+### Ubuntu
 
 ```
+# start the container
+docker run --rm -it ubuntu
+# inside the container
+apt update
+apt install -y git cargo ant mariadb-client libssl-dev clang bsdmainutils pkg-config
+pkg-config libssl
+cd ~
+git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
+cd oopsla21artifact/oltp
 bash build.sh
-bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
+bash run.sh 15 wikipedia causal 3 10
+...
 ```
 
-It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
+### Archlinux
 
-An expected output example of the _one-shot_ command with `20` runs is available at [`output_example.txt`](output_example.txt).
+```
+# start the container
+docker run --rm -it archlinux
+# inside the container
+pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
+rustup install stable
+cd ~
+git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
+cd oopsla21artifact/oltp
+bash build.sh
+bash run.sh 15 wikipedia causal 3 10
+...
+```
 
 ## Output
 
@@ -157,6 +146,17 @@ A16        9                         60.00
 It briefs about the parameters. Then it prints a table with the number of violations and the percentage of violations.
 It also prints the average duration per run. If an assertion is not present in the table, its count (and also its percentage) is zero. 
 The output above shows that `A15` and `A16` were violated 60% times and `A17` was never violated.
+
+## One-shot command
+
+```
+bash build.sh
+bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
+```
+
+It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
+
+An expected output example of the _one-shot_ command with `20` runs is available at [`output_example.txt`](output_example.txt).
 
 ## Runtime
 
