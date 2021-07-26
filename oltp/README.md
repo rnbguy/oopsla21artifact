@@ -90,42 +90,20 @@ It should finish in less than 5 minutes. Use this to verify your setup. (See bel
 ## Docker instructions in the case of dependency problems
 
 If the above command is not executed expectedly (probably because of unusual dependency issues), you can run this artifact inside docker containers.
-We provide working examples for two different docker image choices. You can choose any of them according to your preference.
+
+We provide a [`Dockerfile`](Dockerfile) based on Archlinux docker image. Here is an example to get started with the Dockerfile.
+
+```
+# build the docker image. this includes `bash build.sh`
+docker build . -t oopsla21_aec48
+# start the docker container
+docker run -it oopsla21_aec48
+# inside the docker container
+# working directory will be at `oltp` directory already
+bash run.sh 15 wikipedia causal 3 10
+```
 
 _Docker containers are supported by any OS [as long as it is installed](https://docs.docker.com/get-started)._
-
-### Ubuntu 20.04 docker image
-
-```
-# start the container
-docker run --rm -it ubuntu:focal-20210713
-# inside the container
-apt update
-apt install -y git cargo ant mariadb-client libssl-dev clang bsdmainutils pkg-config
-pkg-config libssl
-cd ~
-git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
-cd oopsla21artifact/oltp
-bash build.sh
-bash run.sh 15 wikipedia causal 3 10
-...
-```
-
-### Archlinux docker image
-
-```
-# start the container
-docker run --rm -it archlinux:base-20210718.0.29333
-# inside the container
-pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
-rustup install stable
-cd ~
-git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
-cd oopsla21artifact/oltp
-bash build.sh
-bash run.sh 15 wikipedia causal 3 10
-...
-```
 
 ## Output
 
