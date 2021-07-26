@@ -66,7 +66,7 @@ function dep_check_all {
 }
 
 check=`dep_check_all`
-[ ! -z "$check" ] && echo -e "not found:\n$check" && exit 1
+[ ! -z "$check" ] && echo -e "not found:\n$check\nmake sure they are available." && exit 1
 
 TOP_LOG_DIR="log"
 
