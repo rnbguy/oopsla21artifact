@@ -37,30 +37,25 @@ MonkeyDB is implemented in the Rust language. The source code is present inside 
 
 We present the results of our experiments as 2D plots, as in Figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randomness involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
 
-# Dependencies
+# Option 1: Use Docker
 
-We require the following set of dependencies to be installed. 
-- A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
-- Apache Ant (for OLTPBench)
-- MySQL console client (for OLTPBench)
-- libssl, clang
-- Bash and its utilities
+This is the recommended option for running this artifact. We also provide a second option without docker, but we switched to using docker after running into a few scripting issues with `Ubuntu 18.04`.
 
-We have verified that the following simple commands are enough to install these dependencies.
-- If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang bsdmainutils`
-- If you are using pacman, `pacman -S rustup ant mariadb openssl clang base-devel --needed; rustup install stable`
+We provide a [`Dockerfile`](Dockerfile) based on Archlinux docker image. _Docker containers are supported in any OS as long as [Docker is installed](https://docs.docker.com/get-started)._ Here are the necessary steps for building (takes 3 to 15 min):
 
-# Instructions
+```
+# build the docker image. this includes `bash build.sh`
+docker build . -t oopsla21_aec48
+```
 
-## Build
+Next, start the container as follows.
 
-From the current directory, execute `bash build.sh`. This will take around 3 to 15 min, depending on how many packages need to be installed.
+```
+# start the docker container
+docker run -it oopsla21_aec48
+```
 
-## Step-by-step guide
-
-_Logs will be generated in `log` directory._
-
-To reproduce the results from the plots in Figure 14 and 15 in the paper, execute `run.sh` script. It requires the following parameters:
+We provide a script called `run.sh` for running the experiments. It requires the following parameters:
 
 `bash run.sh <iterations> <benchmark> <consistency> <number of nodes> <timelimit>`
 
@@ -78,36 +73,49 @@ You can pass comma-separated multiple values to run for multiple configurations 
 
 will run both `tpcc` and `smallbank` under `causal` and `readcommitted` consistency on `3` and `5` replica setup.
 
-## Kick-the-tire command
+For kick-the-tires, run the following:
 
 ```
-bash build.sh
+bash run.sh 15 wikipedia causal 3 10
+```
+
+It should finish in less than 5 minutes. (See below for expected output.)
+
+_Logs will be generated in `log` directory._
+
+For the full experiments:
+
+```
+bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
+```
+
+It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
+
+The output of this command with `20` iterations that we obtained on our machine is available at [`output_example.txt`](output_example.txt).
+
+# Option 2: Self (non-docker) install
+
+We require the following set of dependencies to be installed. 
+- A stable `rust` toolchain. (Install via [Rustup](https://www.rust-lang.org/tools/install))
+- Apache Ant (for OLTPBench)
+- MySQL console client (for OLTPBench)
+- libssl, clang
+- Bash and its utilities
+
+We have verified that the following simple commands are enough to install these dependencies.
+- If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang bsdmainutils`
+- If you are using pacman, `pacman -S rustup ant mariadb openssl clang base-devel --needed; rustup install stable`
+
+From the current directory, execute `bash build.sh`. This will take around 3 to 15 min, depending on how many packages need to be installed.
+For quick sanity checking, run:
+
+```
 bash run.sh 15 wikipedia causal 3 10
 ```
 
 It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
 
-## Docker instructions in case of unexpected issues
-
-If the above command is not executed expectedly (probably because of unusual dependency issues), you can run this artifact inside docker containers.
-
-We provide a [`Dockerfile`](Dockerfile) based on Archlinux docker image. Here is an example to get started with the Dockerfile.
-
-```
-# build the docker image. this includes `bash build.sh`
-docker build . -t oopsla21_aec48
-
-# start the docker container
-docker run -it oopsla21_aec48
-
-# inside the docker container
-# working directory will be at `oltp` directory already
-bash run.sh 15 wikipedia causal 3 10
-```
-
-_Docker containers are supported in any OS as long as [Docker is installed](https://docs.docker.com/get-started)._
-
-## Output
+# Output
 
 A sample output would look as follows,
 
@@ -130,18 +138,8 @@ It briefs about the parameters. Then it prints a table with the number of violat
 It also prints the average duration per run. If an assertion is not present in the table, its count (and also its percentage) is zero. 
 The output above shows that `A15` and `A16` were violated 60% times and `A17` was never violated.
 
-## One-shot command
 
-```
-bash build.sh
-bash run.sh 100 tpcc,smallbank,voter,wikipedia causal,readcommitted 2,3 10
-```
-
-It will take around 20 hours to finish and will most closely resemble the results presented in the paper (Fig. 14 and 15).
-
-An expected output example of the _one-shot_ command with `20` runs is available at [`output_example.txt`](output_example.txt).
-
-## Runtime
+# Runtime
 
 This particular artifact was run on an Intel-i7 (gen 7) laptop with 16GB RAM.
 
@@ -154,15 +152,9 @@ The table below lists the average duration per run in seconds.
 | 2 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 | 3 nodes ; readcommitted | 170 | 15 | 15 | 15 |
 
-## Reproduce results from paper
-
-The one-shot command is enough. But one can also reproduce the results one benchmark at a time.
-
-Note. More number of iterations is preferable to produce a more accurate trend. The suggested minimum number of iterations is 100.
-
 # Futher usage
 
-The main contribution is MonkeyDB. It is just a `cargo` binary project. To run MonekeyDB, execute `cargo run --release` and MonkeyDB will serve SQL queries at default 3306 port. The binary will also be available in the `target/release` directory.
+Our main contribution is MonkeyDB. It is just a `cargo` binary project. To run MonekeyDB, execute `cargo run --release` and MonkeyDB will serve SQL queries at default 3306 port. The binary will also be available in the `target/release` directory.
 
 You can make MonkeyDB listen to some other port as `cargo run --release -- -a 8800` (check `cargo run --release -- --help`).
 
@@ -170,7 +162,7 @@ Once MonkeyDB is up, it is ready to connect to any MySQL client such as MySQL co
 
 ## Special commands for MonkeyDB
 
-There are few special commands for MonekyDB.
+There are few special commands for MonkeyDB.
 
 | Query | Description |
 |-|-|
