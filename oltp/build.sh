@@ -1,3 +1,5 @@
+set -e
+
 function build() {
     cargo build --release
     for bench in tpcc smallbank voter wikipedia; do

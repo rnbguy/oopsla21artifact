@@ -47,8 +47,45 @@ We require the following set of dependencies to be installed.
 - Bash and its utilities
 
 We have verified that the following simple commands are enough to install these dependencies.
-- If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang`
+- If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang bsdmainutils`
 - If you are using pacman, `pacman -S rustup ant mariadb openssl clang base-devel --needed; rustup install stable`
+
+## In case of dependency problems
+
+If somehow the above dependencies do not work properly, you can run this artifact inside a docker container. We provide two working examples.
+
+### Ubuntu
+
+```
+# start the container
+docker run --rm -it ubuntu
+# inside the container
+apt update
+apt install -y git cargo ant mariadb-client libssl-dev clang bsdmainutils pkg-config
+pkg-config libssl
+cd ~
+git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
+cd oopsla21artifact/oltp
+bash build.sh
+bash run.sh 15 wikipedia causal 3 10
+...
+```
+
+### Archlinux
+
+```
+# start the container
+docker run --rm -it archlinux
+# inside the container
+pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
+rustup install stable
+cd ~
+git clone --depth 1 https://github.com/rnbguy/oopsla21artifact
+cd oopsla21artifact/oltp
+bash build.sh
+bash run.sh 15 wikipedia causal 3 10
+...
+```
 
 # Instructions
 
