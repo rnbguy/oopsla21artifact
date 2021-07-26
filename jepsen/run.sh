@@ -53,7 +53,10 @@ function dep_check_one {
 }
 
 function dep_check_all {
-    if which -v > /dev/null 2>&1; then
+    which > /dev/null 2>&1
+    # 127 is for command not found
+    # https://www.gnu.org/software/bash/manual/html_node/Exit-Status.html
+    if [ "$?" -ne 127 ]; then
         for e in awk cat column cut date docker dos2unix grep head mktemp paste printf sleep sort tr uniq; do
             dep_check_one $e
         done
