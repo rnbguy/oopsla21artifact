@@ -19,11 +19,18 @@ Use the same image name to run a docker container:
 ```
 docker run -it <image_name> /bin/bash
 ```
+All of the above commands should finish in less than 5 minutes. (On a fresh OS with missing dependencies, it might take up to 15 min for the docker build to finish.)
+
+# Kick the tires command
+
 For sanity checking, run the following script after executing the above commands, which will run a very small version of our experiments. This should complete without errors with a message that says `Generating plots ...`.
 ```
 ./BuildAndRunMicrobenchmarks.sh
 ```
-All of the above commands should finish in less than 5 minutes. (On a fresh OS with missing dependencies, it might take up to 15 min for the docker build to finish.)
+
+If running the script `BuildAndRunMicrobenchmarks` returns an error `$'\r': command not found` then run this command first to get rid of the carriage return characters `sed 's/\r$//' BuildAndRunMicrobenchmarks.sh > BuildAndRunMicrobenchmarksFixed.sh`. Then do `chmod u+x BuildAndRunMicrobenchmarksFixed.sh` and finally use `BuildAndRunMicrobenchmarksFixed` in place of the original script `BuildAndRunMicrobenchmarks`.
+
+# Full results
 
 To reproduce results of Fig. 13 of the paper: 
 ```
@@ -37,7 +44,6 @@ or
 This will generate the final plots as PDF. Please see the [output](#output) section.
 
 **Notes**
-- If running the script `BuildAndRunMicrobenchmarks` returns an error `$'\r': command not found` then run this command first to get rid of the carriage return characters `sed 's/\r$//' BuildAndRunMicrobenchmarks.sh > BuildAndRunMicrobenchmarksFixed.sh`. Then do `chmod u+x BuildAndRunMicrobenchmarksFixed.sh` and finally use `BuildAndRunMicrobenchmarksFixed` in place of the original script `BuildAndRunMicrobenchmarks`.
 - The parameters used above can take a long time (~ one day), so it is recommended to run with smaller iterations/test-cases, for instance:
 - ```
   ./BuildAndRunMicrobenchmarks.sh --numIterations=2000 --testCases=30
@@ -86,7 +92,7 @@ Each application's violations are summarized in the below table:
  - A plot with the number of unique states observed across different iterations averaged
   across all random test cases for each application. (Location: /MonkeyDB-KV/build-files/applications/plot.pdf)
    
-   _Note_: PDF can not be viewed directly from docker container so it needs to be copied to host OS using:
+   _Note_: PDF can not be viewed directly from docker container so it needs to be copied to host OS using the following command (run from outside the docker container):
   ```
 docker cp <container_name>:/MonkeyDB-KV/build-files/applications/plot.pdf plot.pdf
 ```
