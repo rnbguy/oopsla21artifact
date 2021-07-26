@@ -96,8 +96,10 @@ We provide a [`Dockerfile`](Dockerfile) based on Archlinux docker image. Here is
 ```
 # build the docker image. this includes `bash build.sh`
 docker build . -t oopsla21_aec48
+
 # start the docker container
 docker run -it oopsla21_aec48
+
 # inside the docker container
 # working directory will be at `oltp` directory already
 bash run.sh 15 wikipedia causal 3 10
