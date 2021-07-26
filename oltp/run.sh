@@ -114,14 +114,17 @@ function dep_check_one {
 }
 
 function dep_check_all {
-    for e in awk cat column cut date grep head mktemp mysql printf sort uniq; do
-        dep_check_one $e
-    done
+    if which -v > /dev/null 2>&1; then
+        for e in awk cat column cut date grep head mktemp mysql printf sort uniq; do
+            dep_check_one $e
+        done
+    else
+        echo " which (for dependency check)"
+    fi
 }
 
 check=`dep_check_all`
 [ ! -z "$check" ] && echo -e "not found:\n$check" && exit 1
-
 
 LOG_DIR=`readlink -f log`
 
