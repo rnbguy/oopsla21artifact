@@ -35,7 +35,7 @@ MonkeyDB is implemented in the Rust language. The source code is present inside 
 
 # Results from paper
 
-We present the results of our experiments as 2D plots, as in figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randomness involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
+We present the results of our experiments as 2D plots, as in Figure 14 and 15 in the paper. This artifact reproduces the same plots. (Note that there is randomness involved, so the results will not reproduce exactly, but only approximately the same. The longer you run the artifact, the closer the results would be.)
 
 # Dependencies
 
@@ -87,7 +87,7 @@ bash run.sh 15 wikipedia causal 3 10
 
 It should finish in less than 5 minutes. Use this to verify your setup. (See below for expected output.)
 
-## Docker instructions in the case of dependency problems
+## Docker instructions in case of unexpected issues
 
 If the above command is not executed expectedly (probably because of unusual dependency issues), you can run this artifact inside docker containers.
 
@@ -105,7 +105,7 @@ docker run -it oopsla21_aec48
 bash run.sh 15 wikipedia causal 3 10
 ```
 
-_Docker containers are supported by any OS [as long as it is installed](https://docs.docker.com/get-started)._
+_Docker containers are supported in any OS as long as [Docker is installed](https://docs.docker.com/get-started)._
 
 ## Output
 
