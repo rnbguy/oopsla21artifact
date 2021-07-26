@@ -48,7 +48,7 @@ We require the following set of dependencies to be installed.
 
 We have verified that the following simple commands are enough to install these dependencies.
 - If you are using apt, `apt install cargo ant mariadb-client libssl-dev clang`
-- If you are using pacman, `pacman -S rustup ant mariadb openssl clang --needed; rustup install stable`
+- If you are using pacman, `pacman -S rustup ant mariadb openssl clang base-devel --needed; rustup install stable`
 
 # Instructions
 
