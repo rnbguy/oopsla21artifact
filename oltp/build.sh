@@ -18,7 +18,7 @@ function dep_check_one {
 
 function dep_check_all {
     if which -v > /dev/null 2>&1; then
-        for e in awk cat column cut date grep head mktemp mysql printf sort uniq; do
+        for e in ant cargo echo; do
             dep_check_one $e
         done
     else
