@@ -6,7 +6,7 @@ We thank the reviewers for their comments. We have made some fixes to our artifa
 ### Concern 1 [Reviewer A]
 > Neither `build.sh` nor `run.sh` found.
 
-Please note that our artifacts is split into three parts, each in its own directory - `microbenchmarks`, `oltp` and `jepsen`. It seems that you were in the `microbenchmarks` directory but following the directions for running the `oltp` experiments. Commands and scripts for each directory should be executed in its own directory.
+Please note that our artifacts is split into three parts, each in its own directory - `microbenchmarks`, `oltp` and `jepsen`. Each directory corresponds to its own section in the instructions. Perhaps we failed to make it clear that one has to switch directories when switching sections. It seems that you were in the `microbenchmarks` directory but following the directions for `oltp` experiments. Commands and scripts for each directory should be executed in its own directory.
 
 Here is a start-to-finish example.
 
@@ -19,30 +19,33 @@ cd oopsla21artifact
 # Go inside microbenchmarks directory
 cd microbenchmarks
 
-# read the README file
+# follow the README file (which is section `microbenchmarks` from the instructions)
 less README.md
 
-# (From README) Build microbenchmarks docker container
-docker build .
-
-# (From README) Run the container
-docker run -it <image_name> /bin/bash
-
-# Run
-./BuildAndRunMicrobenchmarks.sh --numIterations=1000 --testCases=20
-
-# Experiment more, if required, with microbenchmarks
+# Build and run a docker image, etc.
+# Experiment more with microbenchmarks 
 ...
 
-# Go inside the oltp directory
+# Exit docker (if inside it)
+# Go inside the oopsla21artifact/oltp directory
 cd ../oltp
 
-# read the README file
+# read the README file (which is section `oltp` from the instructions)
 less README.md
 
-# execute the scripts mentioned in the README.md
+# Experiment with oltp
 bash build.sh
 bash run.sh 15 wikipedia causal 3 10
+...
+
+# Go inside the oopsla21artifact/jepsen directory
+cd ../jepsen
+
+# follow the README file (which is section `jepsen` from the instructions)
+less README.md
+
+# Run the jepsen experiments
+...
 ```
 
 ### Concern 2 [Reviewer A]
