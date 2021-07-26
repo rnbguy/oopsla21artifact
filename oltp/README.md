@@ -39,7 +39,7 @@ We present the results of our experiments as 2D plots, as in Figure 14 and 15 in
 
 # Option 1: Use Docker
 
-This is the recommended option for running this artifact. We also provide a second option without docker, but we switched to using docker after running into a few scripting issues with `Ubuntu 18.04`.
+This is the recommended option for running this artifact. We also provide a second option without docker later but this option is preferable because it ensures that the correct dependencies are installed. 
 
 We provide a [`Dockerfile`](Dockerfile) based on Archlinux docker image. _Docker containers are supported in any OS as long as [Docker is installed](https://docs.docker.com/get-started)._ Here are the necessary steps for building (takes 3 to 15 min):
 
