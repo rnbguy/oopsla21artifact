@@ -49,7 +49,7 @@ function run_bench {
 }
 
 function dep_check_one {
-    [ -z $1 ] || which $1 || echo "make sure \"$1\" is installed."
+    [ -z $1 ] || which $1 2> /dev/null || echo "make sure \"$1\" is installed."
 }
 
 function dep_check_all {
@@ -59,7 +59,7 @@ function dep_check_all {
 }
 
 check=`dep_check_all`
-[ -z $1 ] || echo $check && exit 1
+[ -z $check ] || echo $check && exit 1
 
 TOP_LOG_DIR="log"
 
