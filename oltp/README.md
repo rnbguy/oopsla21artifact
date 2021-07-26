@@ -115,7 +115,7 @@ bash run.sh 15 wikipedia causal 3 10
 
 ```
 # start the container
-docker run --rm -it archlinux:20210718.0.29333
+docker run --rm -it archlinux:base-20210718.0.29333
 # inside the container
 pacman -Syu git rustup ant mariadb openssl clang base-devel --needed --noconfirm
 rustup install stable
