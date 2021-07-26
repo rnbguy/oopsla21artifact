@@ -1,18 +1,5 @@
 set -m
 
-LOG_DIR=`readlink -f log`
-
-mkdir -p ${LOG_DIR}
-
-RUN_DIR="${LOG_DIR}/monkeydb_runs"
-mkdir -p ${RUN_DIR}
-
-ASSERT_DIR="${LOG_DIR}/monkeydb_asserts"
-mkdir -p ${ASSERT_DIR}
-
-OLTP_DIR=`readlink -f oltpbench`
-MONKEYDB_DIR=`readlink -f .`
-
 function now {
     date +%Y-%m-%d-%H-%M-%S
 }
@@ -121,7 +108,33 @@ function run_bench() {
     echo "----------------------------------------------"
 }
 
-# build
+
+function dep_check_one {
+    [ -z $1 ] || which $1 || echo "make sure \"$1\" is installed."
+}
+
+function dep_check_all {
+    for e in awk cat column cut date grep head mktemp mysql printf sort uniq; do
+        dep_check_one $e
+    done
+}
+
+check=`dep_check_all`
+[ -z $1 ] || echo $check && exit 1
+
+
+LOG_DIR=`readlink -f log`
+
+mkdir -p ${LOG_DIR}
+
+RUN_DIR="${LOG_DIR}/monkeydb_runs"
+mkdir -p ${RUN_DIR}
+
+ASSERT_DIR="${LOG_DIR}/monkeydb_asserts"
+mkdir -p ${ASSERT_DIR}
+
+OLTP_DIR=`readlink -f oltpbench`
+MONKEYDB_DIR=`readlink -f .`
 
 # DEFAULT PARAMETERS
 total_run=5

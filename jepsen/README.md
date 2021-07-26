@@ -11,11 +11,12 @@ We present our findings as 2D plots in Figure 16 of the paper. This artifact rep
 
 # Dependencies
 - docker-compose and docker
+- dos2unix
 - Bash and its utilities
 
-If you are using apt, `sudo apt install docker-compose; sudo gpasswd -a <username> docker` and reboot.
+If you are using apt, `sudo apt install dos2unix docker-compose; sudo gpasswd -a <username> docker` and reboot.
 
-If you are using pacman, `sudo pacman -S docker-compose; sudo gpasswd -a <username> docker; sudo systemctl enable docker` and rebbot.
+If you are using pacman, `sudo pacman -S dos2unix docker-compose --needed; sudo gpasswd -a <username> docker; sudo systemctl enable docker` and rebbot.
 If you are using something different than `systemctl`, change the command accordingly.
 
 # Instructions

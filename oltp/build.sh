@@ -11,4 +11,18 @@ function build() {
     cd ..
 }
 
+
+function dep_check_one {
+    [ -z $1 ] || which $1 || echo "make sure \"$1\" is installed."
+}
+
+function dep_check_all {
+    for e in ant cargo echo; do
+        dep_check_one $e
+    done
+}
+
+check=`dep_check_all`
+[ -z $1 ] || echo $check && exit 1
+
 build

@@ -1,9 +1,5 @@
 set -m
 
-TOP_LOG_DIR="log"
-
-mkdir -p "${TOP_LOG_DIR}"
-
 function now {
     date +%Y-%m-%d-%H-%M-%S
 }
@@ -51,6 +47,23 @@ function run_bench {
     docker kill $(docker ps -q) > /dev/null 2>&1
     fg > /dev/null 2>&1
 }
+
+function dep_check_one {
+    [ -z $1 ] || which $1 || echo "make sure \"$1\" is installed."
+}
+
+function dep_check_all {
+    for e in awk cat column cut date docker dos2unix grep head mktemp paste printf sleep sort tr uniq; do
+        dep_check_one $e
+    done
+}
+
+check=`dep_check_all`
+[ -z $1 ] || echo $check && exit 1
+
+TOP_LOG_DIR="log"
+
+mkdir -p "${TOP_LOG_DIR}"
 
 # DEFAULT PARAMETERS
 total_run=5
