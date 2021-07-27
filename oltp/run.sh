@@ -86,16 +86,16 @@ function run_bench() {
     curr_violated_log_dir=`mktemp -d ${ASSERT_DIR}/$(now)_XXX`
     dur=0
     for i in `seq 1 ${total_run}`; do
+        # progressbar
+        p=$((20 * (i-1) / total_run))
+        printf "\e[KProgress on curr param: " >&2
+        printf "%-*s" $((p)) '[' | tr ' ' '#' >&2
+        printf "%*s%3d%%\r"  $((20-p))  ']' "$((p*5))" >&2
+
         start=`date +%s`
         setup_oltp_run ${bench} ${nodes} "${timelimit}" "${consistency}" >> "${curr_violated_log_dir}/${bench}.out" 2>&1
         end=`date +%s`
         dur=$(($dur + $end - $start))
-
-        # progressbar
-        p=$((20 * i / total_run))
-        printf "\e[KProgress on curr param: " >&2
-        printf "%-*s" $((p)) '[' | tr ' ' '#' >&2
-        printf "%*s%3d%%\r"  $((20-p))  ']' "$((p*5))" >&2
     done
     printf "\e[K" >&2
     echo "=========="
