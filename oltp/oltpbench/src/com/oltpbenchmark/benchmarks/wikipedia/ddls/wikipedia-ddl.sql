@@ -41,7 +41,6 @@ CREATE TABLE useracct (
   user_editcount int DEFAULT NULL,
   PRIMARY KEY (user_id),
 );
-CREATE INDEX IDX_USER_EMAIL_TOKEN ON useracct (user_email_token);
 
 -- TODO: log_id
 DROP TABLE IF EXISTS logging;
@@ -105,7 +104,6 @@ CREATE TABLE page_restrictions (
   pr_expiry varbinary(14) DEFAULT NULL,
   pr_id int NOT NULL,
   PRIMARY KEY (pr_id),
-  UNIQUE (pr_page,pr_type)
 );
 
 -- TOOD: rc_id
@@ -171,9 +169,7 @@ DROP TABLE IF EXISTS user_groups;
 CREATE TABLE user_groups (
   ug_user int NOT NULL REFERENCES useracct (user_id),
   ug_group varbinary(16) NOT NULL,
-  UNIQUE (ug_user,ug_group)
 );
-CREATE INDEX IDX_UG_GROUP ON user_groups (ug_group);
 
 DROP TABLE IF EXISTS value_backup;
 CREATE TABLE value_backup (
