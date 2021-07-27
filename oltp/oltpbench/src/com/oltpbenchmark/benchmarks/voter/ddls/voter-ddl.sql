@@ -28,6 +28,6 @@ CREATE TABLE VOTES
   vote_id            bigint     NOT NULL 
 , phone_number       bigint     NOT NULL
 , state              varchar(2) NOT NULL 
-, contestant_number  integer    NOT NULL REFERENCES CONTESTANTS (contestant_number)
+, contestant_number  integer    NOT NULL
 , created            timestamp  NOT NULL
 );
