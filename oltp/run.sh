@@ -98,10 +98,12 @@ function run_bench() {
 
         # progressbar
         p=$((20 * i / total_run))
-        printf "\e[K%-*s" $((p)) '[' | tr ' ' '#'
-        printf "%*s%3d%%\r"  $((20-p))  ']' "$((p*5))"
+        printf "\e[KProgress on curr param: " >&2
+        printf "%-*s" $((p)) '[' | tr ' ' '#' >&2
+        printf "%*s%3d%%\r"  $((20-p))  ']' "$((p*5))" >&2
     done
-    echo -e "\e[KAverage duration per run: $(( $dur / $total_run )) secs"
+    printf "\e[K" >&2
+    echo "Average duration per run: $(( $dur / $total_run )) secs"
     echo "----------------------------------------------"
     grep "^assert_id" "${curr_violated_log_dir}/${bench}.out" \
     | cut -d' ' -f 2 \
