@@ -11,6 +11,7 @@
     <uploadCode></uploadCode>
     <uploadUrl></uploadUrl>
     <scalefactor>1</scalefactor>
+    <loaderThreads>1</loaderThreads>
     
     <!-- The workload -->
     <terminals>3</terminals>

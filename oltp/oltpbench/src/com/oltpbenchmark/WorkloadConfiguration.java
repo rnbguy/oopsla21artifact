@@ -51,7 +51,7 @@ public class WorkloadConfiguration {
 	private double scaleFactor = 1.0;
 	private double selectivity = -1.0;
 	private int terminals;
-	private int loaderThreads = 1;
+	private int loaderThreads = ThreadUtil.availableProcessors();
 	private int numTxnTypes;
     private TraceReader traceReader = null;
     public TraceReader getTraceReader() {

@@ -10,6 +10,7 @@
     <isolation>TRANSACTION_READ_COMMITTED</isolation>
     <uploadCode></uploadCode>
     <uploadUrl></uploadUrl>
+    <loaderThreads>1</loaderThreads>
     
     <scalefactor>1</scalefactor>
     
