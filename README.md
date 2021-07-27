@@ -1,5 +1,10 @@
 # MonkeyDB Artifact
 
+|[Kick-the-tires response](kick-the-tires-response.md)|
+|-|
+
+---
+
 This repository contains the software artifact that supports our OOPSLA'21 submission on "_MonkeyDB: Effectively Testing Correctness against Weak
 Isolation Levels_". MonkeyDB is a mock database that is capable of producing _weak_ behaviors possible under a given isolation levels. 
 Applications can use MonkeyDB to test the correctness of their logic when using a DB configured with a weak isolation level.
