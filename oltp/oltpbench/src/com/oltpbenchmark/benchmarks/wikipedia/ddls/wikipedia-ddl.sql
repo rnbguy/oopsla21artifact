@@ -1,4 +1,4 @@
--- TODO: ipb_id auto_increment
+-- TODO: ipb_id
 DROP TABLE IF EXISTS ipblocks;
 CREATE TABLE ipblocks (
   ipb_id int NOT NULL,
@@ -27,10 +27,10 @@ CREATE INDEX IDX_IPB_RANGE ON ipblocks (ipb_range_start,ipb_range_end);
 CREATE INDEX IDX_IPB_TIMESTAMP ON ipblocks (ipb_timestamp);
 CREATE INDEX IDX_IPB_EXPIRY ON ipblocks (ipb_expiry);
 
--- TOOD: user_id auto_increment
+-- TOOD: user_id
 DROP TABLE IF EXISTS useracct;
 CREATE TABLE useracct (
-  user_id int NOT NULL AUTO_INCREMENT,
+  user_id int NOT NULL,
   user_name varchar(255) NOT NULL,
   user_real_name varchar(255) NOT NULL,
   user_password varchar(1024) NOT NULL,
@@ -50,10 +50,10 @@ CREATE TABLE useracct (
 );
 CREATE INDEX IDX_USER_EMAIL_TOKEN ON useracct (user_email_token);
 
--- TODO: log_id auto_increment
+-- TODO: log_id
 DROP TABLE IF EXISTS logging;
 CREATE TABLE logging (
-  log_id int NOT NULL AUTO_INCREMENT,
+  log_id int NOT NULL,
   log_type varbinary(32) NOT NULL,
   log_action varbinary(32) NOT NULL,
   log_timestamp binary(14) NOT NULL,
@@ -74,10 +74,10 @@ CREATE INDEX IDX_LOG_TIMES ON logging (log_timestamp);
 CREATE INDEX IDX_LOG_USER_TYPE_TIME ON logging (log_user,log_type,log_timestamp);
 CREATE INDEX IDX_LOG_PAGE_ID_TIME ON logging (log_page,log_timestamp);
 
--- TODO: page_id auto_increment
+-- TODO: page_id
 DROP TABLE IF EXISTS page;
 CREATE TABLE page (
-  page_id int NOT NULL AUTO_INCREMENT,
+  page_id int NOT NULL,
   page_namespace int NOT NULL,
   page_title varchar(255) NOT NULL,
   page_restrictions varchar(1024) NOT NULL,
@@ -94,10 +94,10 @@ CREATE TABLE page (
 CREATE INDEX IDX_PAGE_RANDOM ON page (page_random);
 CREATE INDEX IDX_PAGE_LEN ON page (page_len);
 
--- TODO: page_id auto_increment
+-- TODO: page_id
 DROP TABLE IF EXISTS page_backup;
 CREATE TABLE page_backup (
-  page_id int NOT NULL AUTO_INCREMENT,
+  page_id int NOT NULL,
   page_namespace int NOT NULL,
   page_title varchar(255) NOT NULL,
   page_restrictions varchar(1024) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE page_restrictions (
   pr_cascade tinyint NOT NULL,
   pr_user int DEFAULT NULL,
   pr_expiry varbinary(14) DEFAULT NULL,
-  pr_id int NOT NULL AUTO_INCREMENT,
+  pr_id int NOT NULL,
   PRIMARY KEY (pr_id),
   UNIQUE (pr_page,pr_type)
 );
@@ -130,10 +130,10 @@ CREATE INDEX IDX_PR_TYPELEVEL ON page_restrictions (pr_type,pr_level);
 CREATE INDEX IDX_PR_LEVEL ON page_restrictions (pr_level);
 CREATE INDEX IDX_PR_CASCADE ON page_restrictions (pr_cascade);
 
--- TOOD: rc_id auto_increment
+-- TOOD: rc_id
 DROP TABLE IF EXISTS recentchanges;
 CREATE TABLE recentchanges (
-  rc_id int NOT NULL AUTO_INCREMENT,
+  rc_id int NOT NULL,
   rc_timestamp varbinary(14) NOT NULL,
   rc_cur_time varbinary(14) NOT NULL,
   rc_user int NOT NULL,
@@ -169,10 +169,10 @@ CREATE INDEX IDX_RC_IP ON recentchanges (rc_ip);
 CREATE INDEX IDX_RC_NS_USERTEXT ON recentchanges (rc_namespace,rc_user_text);
 CREATE INDEX IDX_RC_USER_TEXT ON recentchanges (rc_user_text,rc_timestamp);
 
--- TODO: rev_id auto_increment
+-- TODO: rev_id
 DROP TABLE IF EXISTS revision;
 CREATE TABLE revision (
-  rev_id int NOT NULL AUTO_INCREMENT,
+  rev_id int NOT NULL,
   rev_page int NOT NULL,
   rev_text_id int NOT NULL,
   rev_comment varchar(1024) NOT NULL,
@@ -191,10 +191,10 @@ CREATE INDEX IDX_PAGE_TIMESTAMP ON revision (rev_page,rev_timestamp);
 CREATE INDEX IDX_USER_TIMESTAMP ON revision (rev_user,rev_timestamp);
 CREATE INDEX IDX_USERTEXT_TIMESTAMP ON revision (rev_user_text,rev_timestamp);
 
--- TODO old_id auto_increment
+-- TODO old_id
 DROP TABLE IF EXISTS text;
 CREATE TABLE text (
-  old_id int NOT NULL AUTO_INCREMENT,
+  old_id int NOT NULL,
   old_text longvarchar NOT NULL,
   old_flags varchar(1024) NOT NULL,
   old_page int DEFAULT NULL,

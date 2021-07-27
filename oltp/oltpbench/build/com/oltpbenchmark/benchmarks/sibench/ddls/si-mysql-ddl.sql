@@ -1,6 +1,0 @@
-DROP TABLE IF EXISTS SITEST;
-CREATE TABLE SITEST (
-  id int NOT NULL,
-  value int NOT NULL,
-  PRIMARY KEY (id)
-);
