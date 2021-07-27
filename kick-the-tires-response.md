@@ -1,6 +1,12 @@
 Kick-the-tires Response
 ======================
 
+|Regarding kick-the-tire issues|
+|-|
+|When we submitted, we mentioned Linux for this artifact. Nonetheless, it should have worked on macOS. We have modified the code as per results on multiple Linux laptops, docker containers. The errors were mainly because of unexpected behaviors from OLTPBenchmark (which is an external tool). `git pull` for the latest changes. Although instructions stay the same but read them to avoid any confusion.|
+
+---
+
 We thank the reviewers for their comments. We have made some fixes to our artifact, based on your feedback, and added more details. We have updated the Github repository. Please `git pull` for the latest commits.
 
 ### Concern 1 [Reviewer A]
