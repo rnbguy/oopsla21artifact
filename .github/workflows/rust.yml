@@ -1,0 +1,37 @@
+name: Rust
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  oltp-build:
+    name: Build OLTP rust
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+    - uses: egor-tensin/setup-clang@v1
+      with:
+        version: latest
+        platform: x64
+      if: contains(matrix.os, 'windows')
+    - uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --manifest-path oltp/Cargo.toml
