@@ -1,4 +1,4 @@
-# MonkeyDB Artifact
+# MonkeyDB Artifact [![DOI](https://zenodo.org/badge/384989526.svg)](https://zenodo.org/badge/latestdoi/384989526)
 
 |[Kick-the-tires response](kick-the-tires-response.md)|
 |-|
