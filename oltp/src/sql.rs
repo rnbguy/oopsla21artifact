@@ -162,11 +162,11 @@ impl SQLdb {
             | sql.starts_with("SHOW WARNINGS")
         {
             println!("inside SET/ALTER TABLE branch");
-            let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, &sql)
-                .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, &sql))
-                .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, &sql))
-                .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, &sql))
-                .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, &sql));
+            let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, sql)
+                .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, sql))
+                .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, sql))
+                .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, sql))
+                .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, sql));
 
             println!("{:?}", parsed_sql);
             return results.completed(1, 0);
@@ -223,11 +223,11 @@ impl SQLdb {
             rw.end_row().unwrap();
 
             return rw.finish();
-        } else if sql_lc.starts_with("read ") {
-            self.dis_kv.read_strategy = sql_lc[5..].to_string();
+        } else if let Some(sql_lc_strip) = sql_lc.strip_prefix("read ") {
+            self.dis_kv.read_strategy = sql_lc_strip.into();
             return results.completed(1, 0);
-        } else if sql_lc.starts_with("set consistency ") {
-            self.dis_kv.set_consistency(&sql_lc[16..]);
+        } else if let Some(sql_lc_strip) = sql_lc.strip_prefix("set consistency ") {
+            self.dis_kv.set_consistency(sql_lc_strip);
             return results.completed(1, 0);
         } else if sql_lc.starts_with("reset") {
             println!("reseting everything");
@@ -664,9 +664,11 @@ impl SQLdb {
                     panic!("primary key is not provided");
                 }
 
-                if prim_key_val.is_empty() && last_pk.is_some() {
-                    needs_to_auto_incremented = true;
-                    prim_key_val.push(last_pk.unwrap() + 1);
+                if let Some(last_pk_unwrap) = last_pk {
+                    if prim_key_val.is_empty() {
+                        needs_to_auto_incremented = true;
+                        prim_key_val.push(last_pk_unwrap + 1);
+                    }
                 }
 
                 self.write(
@@ -886,6 +888,8 @@ impl SQLdb {
         }
         results.completed(1, 0)
     }
+
+    #[allow(clippy::too_many_arguments)]
     pub fn create_table<W: std::io::Write>(
         &mut self,
         s_id: &SessionId,

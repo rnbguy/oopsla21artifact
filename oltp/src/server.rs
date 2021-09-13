@@ -1,5 +1,5 @@
+use std::io;
 use std::sync::{Arc, Condvar, Mutex};
-use std::{fmt::Debug, io};
 
 use super::sql::SQLdb;
 
@@ -9,7 +9,7 @@ use crate::kv::SessionId;
 
 pub struct ConcObj {
     session_id: SessionId,
-    autocommit: bool,
+    _autocommit: bool,
     obj: Arc<(Mutex<SQLdb>, Condvar)>,
 }
 
@@ -17,7 +17,7 @@ impl<'a> ConcObj {
     pub fn from_sqldb(session_id: SessionId, obj: Arc<(Mutex<SQLdb>, Condvar)>) -> Self {
         ConcObj {
             session_id,
-            autocommit: false,
+            _autocommit: false,
             obj,
         }
     }

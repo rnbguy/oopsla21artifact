@@ -1,9 +1,6 @@
 use mysql::prelude::*;
 use mysql::*;
 
-use std::collections::HashMap;
-use std::{thread, time};
-
 fn main() {
     let url: String = "mysql://root@127.0.0.1:3306".into();
 
@@ -63,7 +60,7 @@ fn main() {
 
     // Test read committed consistency
 
-    let c3: u64 = {
+    let _c3: u64 = {
         let mut conn2 = Conn::new(&url).unwrap();
         conn2
             .query_drop(r#"insert into kv (var, val) values (100, 5);"#)
@@ -83,15 +80,15 @@ fn main() {
         let res2 = tx
             .query_first(r#"select val from kv where var=100;"#)
             .unwrap();
-        tx.commit();
+        let _ = tx.commit().is_ok();
 
         let mut read1 = 0;
         let mut read2 = 0;
 
-        if (res1 != None) {
+        if res1 != None {
             read1 = res1.unwrap();
         }
-        if (res2 != None) {
+        if res2 != None {
             read2 = res2.unwrap();
         }
         (read1, read2)

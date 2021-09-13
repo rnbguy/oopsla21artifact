@@ -1,12 +1,5 @@
-use sqlparser::ast;
-use sqlparser::ast::Statement::{
-    Commit, CreateIndex, CreateTable, Delete, Drop, Insert, Query, Rollback, SetVariable,
-    StartTransaction, Update,
-};
 use sqlparser::dialect;
 use sqlparser::parser::Parser;
-
-use nom_sql;
 
 fn main() {
     let sql = "CREATE TABLE ipblocks (
@@ -33,11 +26,11 @@ fn main() {
 
     // INSERT INTO animals (name,) VALUES ("cow",);
 
-    let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, &sql)
-        .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, &sql));
+    let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, sql)
+        .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, sql));
 
     println!("{:?}", parsed_sql);
 
@@ -53,11 +46,11 @@ fn main() {
   UNIQUE (pr_page,pr_type)
 );";
 
-    let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, &sql)
-        .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, &sql))
-        .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, &sql));
+    let parsed_sql = Parser::parse_sql(&dialect::AnsiDialect {}, sql)
+        .or_else(|_| Parser::parse_sql(&dialect::GenericDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::MsSqlDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::MySqlDialect {}, sql))
+        .or_else(|_| Parser::parse_sql(&dialect::PostgreSqlDialect {}, sql));
 
     println!("{:?}", parsed_sql);
 }

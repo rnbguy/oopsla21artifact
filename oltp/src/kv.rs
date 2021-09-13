@@ -66,6 +66,7 @@ pub trait KVStoreT {
     }
 
     fn read_ser(&mut self, x: &VarId, s_id: &SessionId) -> Option<Value>;
+    #[allow(clippy::ptr_arg)]
     fn write_ser(&mut self, x: &VarId, v: &Value, s_id: &SessionId) -> bool;
 
     fn read<K: Debug + Hash, V: DeserializeOwned>(&mut self, k: &K, s_id: &SessionId) -> Option<V> {

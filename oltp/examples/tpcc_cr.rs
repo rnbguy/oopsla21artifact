@@ -690,12 +690,12 @@ fn cr12(conn: &mut Conn) -> bool {
         .unwrap();
 
     for mut row in result.flatten() {
-            let o_id: u64 = row.take::<String, _>("O_ID").unwrap().parse().unwrap();
-            let o_w_id: u64 = row.take::<String, _>("O_W_ID").unwrap().parse().unwrap();
-            let o_d_id: u64 = row.take::<String, _>("O_D_ID").unwrap().parse().unwrap();
-            let o_c_id: u64 = row.take::<String, _>("O_C_ID").unwrap().parse().unwrap();
+        let o_id: u64 = row.take::<String, _>("O_ID").unwrap().parse().unwrap();
+        let o_w_id: u64 = row.take::<String, _>("O_W_ID").unwrap().parse().unwrap();
+        let o_d_id: u64 = row.take::<String, _>("O_D_ID").unwrap().parse().unwrap();
+        let o_c_id: u64 = row.take::<String, _>("O_C_ID").unwrap().parse().unwrap();
 
-            order.insert((o_id, o_w_id, o_d_id), o_c_id);
+        order.insert((o_id, o_w_id, o_d_id), o_c_id);
     }
 
     let result = conn
@@ -753,19 +753,24 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
     let mut cnt_map = vec![0isize; asserts.len()];
     let mut dur_map = vec![0f32; asserts.len()];
     for _ in 0..n {
-        for i in 0..asserts.len() {
+        for (i, curr_assert) in asserts.iter().enumerate() {
             let cnt_ent = cnt_map.get_mut(i).unwrap();
             if *cnt_ent <= 0 {
                 *cnt_ent -= 1;
                 let begin = std::time::Instant::now();
-                let ans = !asserts[i](conn);
+                let ans = !curr_assert(conn);
                 conn.query_drop("ROLLBACK").unwrap();
                 let dur_ent = dur_map.get_mut(i).unwrap();
                 *dur_ent += begin.elapsed().as_secs_f32();
                 if ans {
                     *cnt_ent = -*cnt_ent;
                     // A1-A12 for TPCC
-                    println!("assert_id {} is violated (after {} tries and {:.2} secs)", i + 1, *cnt_ent, *dur_ent);
+                    println!(
+                        "assert_id {} is violated (after {} tries and {:.2} secs)",
+                        i + 1,
+                        *cnt_ent,
+                        *dur_ent
+                    );
                 }
             }
         }

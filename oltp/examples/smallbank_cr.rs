@@ -36,9 +36,11 @@ fn cr01(conn: &mut Conn) -> bool {
 
     // println!("{:?}", net_balance);
 
-    (net_balance.values().sum::<f64>() - (2500. + 2500.) * (net_balance.len() as f64)).abs() < f64::EPSILON
+    (net_balance.values().sum::<f64>() - (2500. + 2500.) * (net_balance.len() as f64)).abs()
+        < f64::EPSILON
 }
 
+#[allow(dead_code)]
 fn cr02(conn: &mut Conn) -> bool {
     /*
     SELECT * FROM SAVINGS WHERE bal < 0;
@@ -48,10 +50,10 @@ fn cr02(conn: &mut Conn) -> bool {
     let result = conn.query_iter("SELECT custid, bal FROM SAVINGS").unwrap();
 
     for mut row in result.flatten() {
-            let custid: u64 = row.take::<String, _>("custid").unwrap().parse().unwrap();
-            let bal: f64 = row.take::<String, _>("bal").unwrap().parse().unwrap();
+        let custid: u64 = row.take::<String, _>("custid").unwrap().parse().unwrap();
+        let bal: f64 = row.take::<String, _>("bal").unwrap().parse().unwrap();
 
-            savings_balance.insert(custid, bal);
+        savings_balance.insert(custid, bal);
     }
 
     savings_balance.values().all(|x| x >= &0.)
@@ -61,19 +63,24 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
     let mut cnt_map = vec![0isize; asserts.len()];
     let mut dur_map = vec![0f32; asserts.len()];
     for _ in 0..n {
-        for i in 0..asserts.len() {
+        for (i, curr_assert) in asserts.iter().enumerate() {
             let cnt_ent = cnt_map.get_mut(i).unwrap();
             if *cnt_ent <= 0 {
                 *cnt_ent -= 1;
                 let begin = std::time::Instant::now();
-                let ans = !asserts[i](conn);
+                let ans = !curr_assert(conn);
                 conn.query_drop("ROLLBACK").unwrap();
                 let dur_ent = dur_map.get_mut(i).unwrap();
                 *dur_ent += begin.elapsed().as_secs_f32();
                 if ans {
                     *cnt_ent = -*cnt_ent;
                     // A13 for smallbank
-                    println!("assert_id {} is violated (after {} tries and {:.2} secs)", i + 1 + 12, *cnt_ent, *dur_ent);
+                    println!(
+                        "assert_id {} is violated (after {} tries and {:.2} secs)",
+                        i + 1 + 12,
+                        *cnt_ent,
+                        *dur_ent
+                    );
                 }
             }
         }

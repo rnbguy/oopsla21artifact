@@ -127,6 +127,7 @@ impl KVTransaction {
         ));
     }
 
+    #[allow(clippy::ptr_arg)]
     pub fn append_write(&mut self, x: &VarId, v: &Value) {
         self.op
             .push(Op::Write(*x, v.clone(), (self.t_id, self.op.len() as u64)));
@@ -255,7 +256,7 @@ impl KVStoreT for KVStore {
                 .drain(..)
                 .filter(|r_t_id| {
                     if r_t_id == &(0, 0) {
-                        let txn = self.get_transaction_mut(&r_t_id);
+                        let txn = self.get_transaction_mut(r_t_id);
                         if txn.op.iter().all(|op| match op {
                             Op::Delete(t, y, _) if s == t && x == y => false,
                             Op::Insert(t, y, _) if s == t && x == y => false,
@@ -265,7 +266,7 @@ impl KVStoreT for KVStore {
                         }
                     }
 
-                    let op_id = match self.get_transaction(&r_t_id).contains(s, x) {
+                    let op_id = match self.get_transaction(r_t_id).contains(s, x) {
                         Some((_, o_id)) => o_id,
                         None => {
                             assert!(r_t_id == &(0, 0));
@@ -307,7 +308,7 @@ impl KVStoreT for KVStore {
             None => unreachable!(),
         };
 
-        self.get_last_transaction_mut(&s_id)
+        self.get_last_transaction_mut(s_id)
             .append_contains(s, x, &r_o_id);
         val
     }
@@ -355,7 +356,7 @@ impl KVStoreT for KVStore {
                     // println!("trying to read from {:?}", r_id);
 
                     if r_t_id == &(0, 0) {
-                        let txn = self.get_transaction_mut(&r_t_id);
+                        let txn = self.get_transaction_mut(r_t_id);
                         if txn
                             .op
                             .iter()
@@ -725,7 +726,7 @@ impl KVStore {
         for (x, t2t1) in wr.iter() {
             for (t2, t1s) in t2t1.iter() {
                 for t1 in t1s.iter() {
-                    if let Some(t3s) = ws.get(&x) {
+                    if let Some(t3s) = ws.get(x) {
                         for t3 in t3s.iter() {
                             if t3 != t2 && vis.get(t3).map(|t3r| t3r.contains(t1)) == Some(true) {
                                 // t2, t3 write on x
@@ -744,7 +745,7 @@ impl KVStore {
         for (x, t2t1) in wr_s.iter() {
             for (t2, t1s) in t2t1.iter() {
                 for t1 in t1s.iter() {
-                    if let Some(t3s) = ws_s.get(&x) {
+                    if let Some(t3s) = ws_s.get(x) {
                         for t3 in t3s.iter() {
                             if t3 != t2 && vis.get(t3).map(|t3r| t3r.contains(t1)) == Some(true) {
                                 // t2, t3 write on x
@@ -865,7 +866,7 @@ impl KVStore {
         for (x, t2t1) in wr.iter() {
             for (t2, t1s) in t2t1.iter() {
                 for t1 in t1s.iter() {
-                    if let Some(t3s) = ws.get(&x) {
+                    if let Some(t3s) = ws.get(x) {
                         for t3 in t3s.iter() {
                             if t3 != t2 && so.get(t3).map(|t3r| t3r.contains(t1)) == Some(true) {
                                 // t2, t3 write on x
@@ -884,7 +885,7 @@ impl KVStore {
         for (x, t2t1) in wr_s.iter() {
             for (t2, t1s) in t2t1.iter() {
                 for t1 in t1s.iter() {
-                    if let Some(t3s) = ws_s.get(&x) {
+                    if let Some(t3s) = ws_s.get(x) {
                         for t3 in t3s.iter() {
                             if t3 != t2 && so.get(t3).map(|t3r| t3r.contains(t1)) == Some(true) {
                                 // t2, t3 write on x
