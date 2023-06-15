@@ -233,8 +233,7 @@ impl KVStoreT for KVStore {
             let mut choices: Vec<_> = self
                 .history
                 .values()
-                .map(|x| x.iter())
-                .flatten()
+                .flat_map(|x| x.iter())
                 .filter_map(|v| {
                     if v.committed && v.contains(s, x).is_some() {
                         Some(v.t_id)
@@ -330,8 +329,7 @@ impl KVStoreT for KVStore {
             let mut choices: Vec<_> = self
                 .history
                 .values()
-                .map(|x| x.iter())
-                .flatten()
+                .flat_map(|x| x.iter())
                 .filter_map(|v| {
                     if v.committed && v.read(x).is_some() {
                         Some(v.t_id)
@@ -779,7 +777,7 @@ impl KVStore {
 
     pub fn inserted_once(&self, s1: &SetId) -> Vec<VarId> {
         let mut all_vars = HashSet::new();
-        for txn in self.history.values().map(|x| x.iter()).flatten() {
+        for txn in self.history.values().flat_map(|x| x.iter()) {
             all_vars.extend(txn.op.iter().filter_map(|op| match op {
                 Op::Insert(s2, v, _) if s1 == s2 => Some(v),
                 _ => None,

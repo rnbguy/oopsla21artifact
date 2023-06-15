@@ -13,7 +13,7 @@ pub struct ConcObj {
     obj: Arc<(Mutex<SQLdb>, Condvar)>,
 }
 
-impl<'a> ConcObj {
+impl ConcObj {
     pub fn from_sqldb(session_id: SessionId, obj: Arc<(Mutex<SQLdb>, Condvar)>) -> Self {
         ConcObj {
             session_id,

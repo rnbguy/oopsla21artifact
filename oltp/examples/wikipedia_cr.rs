@@ -179,7 +179,7 @@ struct Opts {
 fn main() {
     let opts: Opts = Opts::parse();
     let url: String = format!("mysql://root@127.0.0.1:{}/{}", opts.port, opts.db);
-    let mut conn = Conn::new(&url).unwrap();
+    let mut conn = Conn::new(url).unwrap();
 
     let asserts: Vec<fn(&mut Conn) -> bool> = vec![cr01, cr02, cr03];
 

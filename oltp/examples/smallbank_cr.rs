@@ -100,7 +100,7 @@ struct Opts {
 fn main() {
     let opts: Opts = Opts::parse();
     let url: String = format!("mysql://root@127.0.0.1:{}/smallbank", opts.port);
-    let mut conn = Conn::new(&url).unwrap();
+    let mut conn = Conn::new(url).unwrap();
 
     let asserts: Vec<fn(&mut Conn) -> bool> = vec![cr01];
 

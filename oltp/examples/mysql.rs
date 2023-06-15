@@ -85,11 +85,11 @@ fn main() {
         let mut read1 = 0;
         let mut read2 = 0;
 
-        if res1 != None {
-            read1 = res1.unwrap();
+        if let Some(val) = res1 {
+            read1 = val;
         }
-        if res2 != None {
-            read2 = res2.unwrap();
+        if let Some(val) = res2 {
+            read2 = val;
         }
         (read1, read2)
     };
