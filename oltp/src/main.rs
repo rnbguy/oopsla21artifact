@@ -8,9 +8,9 @@ use msql_srv::MysqlIntermediary;
 
 use std::thread;
 
-use clap::Clap;
+use clap::Parser;
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct Opts {
     #[clap(short, long, default_value = "3306")]
     anyport: u16,

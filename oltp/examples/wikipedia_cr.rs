@@ -3,7 +3,7 @@ use mysql::Conn;
 
 use std::collections::HashMap;
 
-use clap::Clap;
+use clap::Parser;
 
 fn cr01(conn: &mut Conn) -> bool {
     // Total number of changes done for all the pages by each user in recentchanges = no.of pages
@@ -166,7 +166,7 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
     }
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct Opts {
     #[clap(short, long, default_value = "3306")]
     port: u16,

@@ -3,7 +3,7 @@ use mysql::Conn;
 
 use std::collections::HashMap;
 
-use clap::Clap;
+use clap::Parser;
 
 fn cr01(conn: &mut Conn) -> bool {
     /*
@@ -87,7 +87,7 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
     }
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct Opts {
     #[clap(short, long, default_value = "3306")]
     port: u16,
