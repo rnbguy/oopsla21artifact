@@ -46,7 +46,7 @@ fn cr01(conn: &mut Conn) -> bool {
         let rc_user: u64 = row.take::<String, _>("rc_user").unwrap().parse().unwrap();
 
         let ent = change_cnt.entry(rc_user).or_default();
-        *ent -= 1;
+        *ent = ent.checked_sub(1).expect("zero value");
     }
 
     change_cnt.values().all(|x| x == &0)
@@ -91,7 +91,7 @@ fn cr02(conn: &mut Conn) -> bool {
         let log_user: u64 = row.take::<String, _>("log_user").unwrap().parse().unwrap();
 
         let ent = change_cnt.entry(log_user).or_default();
-        *ent -= 1;
+        *ent = ent.checked_sub(1).expect("zero value");
     }
 
     change_cnt.values().all(|x| x == &0)
@@ -132,7 +132,7 @@ fn cr03(conn: &mut Conn) -> bool {
         let rc_user: u64 = row.take::<String, _>("rc_user").unwrap().parse().unwrap();
 
         let ent = change_cnt.entry(rc_user).or_default();
-        *ent -= 1;
+        *ent = ent.checked_sub(1).expect("zero value");
     }
 
     change_cnt.values().all(|x| x == &0)
@@ -145,7 +145,7 @@ fn do_check(conn: &mut Conn, asserts: &[fn(&mut Conn) -> bool], n: usize) {
         for (i, curr_assert) in asserts.iter().enumerate() {
             let cnt_ent = cnt_map.get_mut(i).unwrap();
             if *cnt_ent <= 0 {
-                *cnt_ent -= 1;
+                *cnt_ent = cnt_ent.checked_sub(1).expect("zero value");
                 let begin = std::time::Instant::now();
                 let ans = !curr_assert(conn);
                 conn.query_drop("ROLLBACK").unwrap();
